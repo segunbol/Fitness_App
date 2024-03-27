@@ -100,7 +100,7 @@ export const signIn = async (
     }
     const SECRET = process.env.SECRET || "";
     const token = jwt.sign(
-      { _id: user._id, userName: user.userName, email: user.email },
+      { _id: user._id, userName: user.userName, isAdmin: user.isAdmin },
       SECRET,
       { expiresIn: "30d" }
     );
@@ -113,10 +113,7 @@ export const signIn = async (
       isAdmin: user.isAdmin,
     };
     console.log(req.user);
-    // delete info?.password;
-    // console.log(info.password);
-    // info.token = token;
-    // console.log(req.cookies.token);
+
     return res.cookie("token", token).status(200).json(info);
 
     // Do something with the validated user data
