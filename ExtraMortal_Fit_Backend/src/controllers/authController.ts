@@ -102,12 +102,17 @@ export const signIn = async (
     const token = jwt.sign(
       { _id: user._id, userName: user.userName, email: user.email },
       SECRET,
-      { expiresIn: "3d" }
+      { expiresIn: "30d" }
     );
     const info: UserInfo = user.toObject(); // Assign to the optional type
     delete info.password;
     // const info = user.toObject();
-
+    req.user = {
+      _id: user.id,
+      userName: user.userName,
+      isAdmin: user.isAdmin,
+    };
+    console.log(req.user);
     // delete info?.password;
     // console.log(info.password);
     // info.token = token;

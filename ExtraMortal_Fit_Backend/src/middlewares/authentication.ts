@@ -1,27 +1,41 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 // import { IUser } from '../utils/types';
 
-declare module 'express' {
+declare module "express" {
   interface Request {
     user?: any;
   }
 }
 
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+export const authenticate = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { authorization } = req.headers;
   if (authorization) {
     const token = authorization.slice(7, authorization.length);
-    jwt.verify(token, process.env.JWT_KEY!, (err, decode) => {
+    console.log(token);
+    jwt.verify(token, process.env.SECRET!, (err, decode) => {
       if (err) {
-        res.status(403).send({ success: false, message: 'Invalid Token' });
+        res.status(403).send({ success: false, message: "Invalid Token" });
       } else {
         req.user = decode;
         next();
       }
     });
   } else {
-    res.status(403).send({ success: false, message: 'No Token' });
+    res.status(403).send({ success: false, message: "No Token" });
+  }
+};
+
+export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.user);
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401).send({ message: "Invalid Admin Token" });
   }
 };
 
@@ -52,4 +66,3 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 
 //   return false;
 // };
-

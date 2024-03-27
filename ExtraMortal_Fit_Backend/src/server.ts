@@ -7,7 +7,9 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 // import logger from "logger";
 import authRoutes from "./routes/authRoutes";
+import usersRoutes from "./routes/userRoute";
 // import { errorMiddleware } from "./middlewares/errorMiddleware";
+
 dotenv.config();
 const MONGO = process.env.MONGODB_URI!;
 const connectDB = async () => {
@@ -41,7 +43,10 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello -Start  World!");
 });
 
-app.use("/api/v1/auth", authRoutes);
+const API_URL = process.env.API_URL!;
+
+app.use(`${API_URL}/auth`, authRoutes);
+app.use(`${API_URL}/users`, usersRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
