@@ -163,3 +163,82 @@ const chest = [
     target: "pectorals",
   },
 ];
+
+function calculateEndDate(startDate: Date, duration: number, durationType: 'month' | 'quarter' | 'biannually' | 'yearly'): Date {
+  const endDate = new Date(startDate);
+
+  switch (durationType) {
+    case 'month':
+      endDate.setMonth(endDate.getMonth() + duration);
+      // Adjust for days if start date isn't the first of the month
+      endDate.setDate(Math.min(endDate.getDate(), startDate.getDate())); // Ensure end date doesn't go past start date's day
+      break;
+    case 'quarter':
+      endDate.setMonth(endDate.getMonth() + (duration * 3));
+      // Adjust for days if start date isn't the first of the month (similar to 'month' case)
+      endDate.setDate(Math.min(endDate.getDate(), startDate.getDate()));
+      break;
+    case 'biannually':
+      endDate.setFullYear(endDate.getFullYear() + (duration / 2));
+      // Adjust for months and days if start date isn't the beginning of the year (similar to 'month' case)
+      endDate.setMonth(Math.min(endDate.getMonth(), startDate.getMonth()));
+      endDate.setDate(Math.min(endDate.getDate(), startDate.getDate()));
+      break;
+    case 'yearly':
+      endDate.setFullYear(endDate.getFullYear() + duration);
+      // Adjust for months and days if start date isn't the beginning of the year (similar to 'biannually' case)
+      endDate.setMonth(Math.min(endDate.getMonth(), startDate.getMonth()));
+      endDate.setDate(Math.min(endDate.getDate(), startDate.getDate()));
+      break;
+    default:
+      throw new Error('Invalid duration type');
+  }
+
+  return endDate;
+}
+
+export const updateSubscriptionStatus = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { user } = req;
+    const gymId = user.gymid; // Retrieve gymId from authenticated user
+
+    const updatedSubscriptions = await Subscriptions.updateMany(
+      { gymId: gymId },
+      {
+        $set: {
+          isActive: {
+            $cond: {
+              if: { $and: [{ $gte: ["$startDate", new Date()] }, { $lte: ["$endDate", new Date()] }] },
+              then: true,
+              else: false,
+            },
+          },
+        },
+      }
+    );
+
+    // Handle potential errors
+    if (!updatedSubscriptions.modifiedCount) {
+      return res.status(400).json({
+        success: false,
+        message: "No subscriptions found for the provided gymId.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Subscriptions updated successfully.",
+      updatedCount: updatedSubscriptions.modifiedCount,
+    });
+  } catch (err: any) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: "Error updating subscriptions.",
+    });
+  }
+};
+

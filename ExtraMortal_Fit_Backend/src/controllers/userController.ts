@@ -5,6 +5,7 @@ import {
   editUserSchema,
   updateUserStatusSchema,
 } from "../validators/userValidator";
+import bcrypt from "bcryptjs";
 
 {
   /*The getAll Users will have two conditional response based on permissions
@@ -110,6 +111,12 @@ export const updateUser = async (
   res: Response
 ): Promise<Response> => {
   try {
+    if (req.user._id != req.params.id) {
+      return res.status(400).json({
+        success: false,
+        message: "Not Permitted",
+      });
+    }
     const { value, error } = editUserSchema.body.validate(req.body);
     if (error) {
       return res.status(400).json({
@@ -129,6 +136,11 @@ export const updateUser = async (
       state,
       city,
     } = value;
+    let hashedPassword;
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hashSync(password, salt);
+    }
     const user = await Users.findById(req.params.id);
     if (user) {
       user.userName = userName || user.userName;
@@ -137,7 +149,7 @@ export const updateUser = async (
       user.phoneNo = phoneNo || user.phoneNo;
       user.email = email || user.email;
       user.userImg = userImg || user.userImg;
-      user.password = password || user.password;
+      user.password = hashedPassword || user.password;
       user.gender = gender || user.gender;
       user.state = state || user.state;
       user.city = city || user.city;

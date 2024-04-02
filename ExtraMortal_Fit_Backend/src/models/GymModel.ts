@@ -4,13 +4,19 @@ import paginate from "mongoose-paginate-v2";
 
 const gymSchema = new Schema<IGym>(
   {
-    gymName: { type: String, required: true },
+    gymName: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     address: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: true },
-    contactPersonId: { type: Schema.Types.ObjectId, required: true },
-    contactPersonName: { type: String, required: true },
+    email: { type: String, required: true },
+    contactPersonUserName: { type: String, required: true },
+    contactPersonLastName: { type: String, required: true },
+    contactPersonFirstName: { type: String, required: true },
     phoneNo: { type: Number, required: true },
+    verified: { type: Boolean, default: false },
+    gymImg: { type: String },
+    subscriptionTypeAndAmount: {}
   },
   {
     timestamps: true,
@@ -31,9 +37,6 @@ const gymSchema = new Schema<IGym>(
 );
 
 gymSchema.plugin(paginate);
-const Gyms = model<IGym, PaginateModel<IGym>>(
-  "Gyms",
-  gymSchema
-);
+const Gyms = model<IGym, PaginateModel<IGym>>("Gyms", gymSchema);
 
-export default Gyms
+export default Gyms;

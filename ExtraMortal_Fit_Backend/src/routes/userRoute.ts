@@ -9,7 +9,7 @@ import { authenticate, isAdmin } from "../middlewares/authentication";
 
 const router = express.Router();
 
-router.get("/", authenticate, isAdmin, getAllUsers);
+router.get("/", authenticate, getAllUsers);
 router.get("/:id", authenticate, getUser);
 router.put("/:id", authenticate, updateUser);
 router.delete("/:id", authenticate, deleteUser);

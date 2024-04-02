@@ -22,23 +22,47 @@ export interface IUser {
   deletedAt?: Date | null;
 }
 
+export interface UserInfo {
+  _id: string;
+  userName: string;
+  email: string;
+  password?: string; // <-- Make password optional
+}
 export interface IGym {
   gymName: string;
   address: string;
   city: string;
   state: string;
-  contactPersonId: ObjectId;
-  contactPersonName: string;
+  contactPersonUserName: String;
+  contactPersonFirstName: string;
+  contactPersonLastName: string;
   phoneNo: number;
+  verified: boolean;
+  gymImg: string;
+  email: string;
+  password: string;
+  subscriptionTypeAndAmount: string;
+  
 }
 
+export interface GymInfo {
+  _id: string;
+  gymName: string;
+  email: string;
+  password?: string; // <-- Make password optional
+}
 export interface ISubscription {
   id: ObjectId;
-  userId: ObjectId;
+  customerUserId: ObjectId;
+  customerUsername: string;
   gymId: ObjectId;
   startDate: Date;
   endDate: Date;
   isActive: boolean;
+  subscriptionType: string;
+  subscriptionTypeCount: number;
+  createdBy:ObjectId;
+  createdByUsername:string;
 }
 
 export interface IExercises {
@@ -57,9 +81,6 @@ export interface IToken {
   token: string;
 }
 
-export interface UserInfo {
-  _id: string;
-  userName: string;
-  email: string;
-  password?: string; // <-- Make password optional
-}
+
+
+

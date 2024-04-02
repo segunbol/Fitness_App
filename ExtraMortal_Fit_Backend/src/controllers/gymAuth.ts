@@ -1,20 +1,18 @@
 import mongoose from "mongoose";
 import { Request, Response } from "express";
 import Users from "../models/UserModel";
+import Gyms from "../models/GymModel";
 import bcrypt from "bcryptjs";
 import Token from "../models/TokenModel";
 import crypto from "crypto";
-import {
-  userSignUpSchema,
-  userSignInSchema,
-} from "../validators/userValidator";
 import jwt from "jsonwebtoken";
 import { UserInfo } from "../utils/types";
+import { gymSignInSchema, gymSignUpSchema } from "../validators/gymValidator";
 
-export const signUp = async (req: Request, res: Response) => {
+export const GymSignUp = async (req: Request, res: Response) => {
   // console.log(req.body)
   try {
-    const { error, value } = userSignUpSchema.body.validate(req.body);
+    const { error, value } = gymSignUpSchema.body.validate(req.body);
     console.log(value);
     if (error) {
       return res.status(400).json({
@@ -23,40 +21,46 @@ export const signUp = async (req: Request, res: Response) => {
       });
     }
     const {
-      userName,
-      firstName,
-      lastName,
-      phoneNo,
-      email,
-      userImg,
+      gymName,
       password,
-      verified,
-      gender,
-      isAdmin,
-      state,
+      address,
       city,
+      state,
+      email,
+      contactPersonUserName,
+      contactPersonLastName,
+      contactPersonFirstName,
+      phoneNo,
+      verified,
+      gymImg,
     } = value;
-
+    const checkUser = await Users.findOne({userName:contactPersonUserName})
+    if (!checkUser){
+        return res.status(500).json({
+            success: false,
+            message: "Username does not exist",
+          }) 
+    }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hashSync(password, salt);
-    const newUser = new Users({
-      userName,
-      firstName,
-      lastName,
-      phoneNo,
-      email,
-      userImg,
+    const newUser = new Gyms({
+      gymName,
       password: hashedPassword,
-      verified,
-      gender,
-      isAdmin,
-      state,
+      address,
       city,
+      state,
+      email,
+      contactPersonUserName: checkUser.userName,
+      contactPersonLastName:checkUser.lastName,
+      contactPersonFirstName:checkUser.firstName,
+      phoneNo,
+      verified,
+      gymImg,
     });
-    const savedUser = await newUser.save();
-    const userId = savedUser._id;
-    const userEmail = savedUser.email;
+    const savedGym = await newUser.save();
 
+    // const userId = savedGym._id;
+    // const userEmail = savedGym.email;
     // let token = await new Token({
     //   userId: userId,
     //   token: crypto.randomBytes(32).toString("hex"),
@@ -68,7 +72,7 @@ export const signUp = async (req: Request, res: Response) => {
     // console.log(result);
     // await sendEmail(userEmail, subject, link, result);
 
-    res.status(200).json(savedUser);
+    res.status(200).json(savedGym);
   } catch (err: any) {
     return res.status(500).json({
       success: false,
@@ -77,34 +81,37 @@ export const signUp = async (req: Request, res: Response) => {
   }
 };
 
-export const signIn = async (
+export const gymSignIn = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   try {
-    const { error, value } = userSignInSchema.body.validate(req.body);
+    const { error, value } = gymSignInSchema.body.validate(req.body);
     if (error) {
       return res.status(400).json({
         success: false,
         message: error.details[0].message,
       });
     }
-    const { userName, password } = value;
-    const user = await Users.findOne({ userName: userName });
-    if (!user) {
+    
+    const { gymName, password } = value;
+    
+    const gym = await Gyms.findOne({ gymName: gymName });
+    
+    if (!gym) {
       return res.status(404).json("User not found!");
     }
-    const match = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, gym.password);
     if (!match) {
       return res.status(401).json("Wrong credentials!");
     }
     const SECRET = process.env.SECRET || "";
     const token = jwt.sign(
-      { _id: user._id, userName: user.userName, isAdmin: user.isAdmin },
+      { gymid: gym._id, gymName: gym.gymName, verified: gym.verified, contactUsername:gym.contactPersonUserName },
       SECRET,
       { expiresIn: "1d" }
     );
-    const info: UserInfo = user.toObject(); // Assign to the optional type
+    const info: UserInfo = gym.toObject(); // Assign to the optional type
     delete info.password;
     // const info = user.toObject();
     // req.user = {
@@ -112,7 +119,7 @@ export const signIn = async (
     //   userName: user.userName,
     //   isAdmin: user.isAdmin,
     // };
-    console.log(req.user);
+    // console.log(req);
 
     return res.cookie("token", token).status(200).json(info);
 
@@ -131,7 +138,7 @@ export const signIn = async (
   }
 };
 
-export const signOut = async (
+export const gymSignOut = async (
   req: Request,
   res: Response
 ): Promise<Response> => {

@@ -1,0 +1,30 @@
+FOR USERMODEL:
+Add GymSubscribed column to Users Model as type list
+Add UserSubscribed column to Gym Model as type list
+Add SuperAdmin Column to User Model type boolean
+Add GymStaff to User Model as type boolean 
+FOR USERCONTROLLER(31/03/24)
+Remove the isAdmin check from the route
+
+
+"customerUserId":"",
+"customerUsername":"",
+"gymId":"",
+"createdBy":"",
+"createdByUsername":"", 
+"startDate": "",
+"endDate":"",
+"isActive": "",
+"subscriptionTypeCount":"", 
+"subscriptionType":""
+
+customerUserId,
+customerUsername, 
+gymId,
+createdBy,
+createdByUsername, 
+startDate, 
+endDate,
+isActive, 
+subscriptionTypeCount, 
+subscriptionType

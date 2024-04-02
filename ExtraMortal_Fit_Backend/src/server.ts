@@ -8,6 +8,9 @@ import morgan from "morgan";
 // import logger from "logger";
 import authRoutes from "./routes/authRoutes";
 import usersRoutes from "./routes/userRoute";
+import gymAuthRoutes from "./routes/gymAuthRoute"
+import gymRoutes from './routes/gymRoutes'
+import subscriptionRoutes from './routes/subscriptionRoutes'
 // import { errorMiddleware } from "./middlewares/errorMiddleware";
 
 dotenv.config();
@@ -46,7 +49,10 @@ app.get("/", (req: Request, res: Response) => {
 const API_URL = process.env.API_URL!;
 
 app.use(`${API_URL}/auth`, authRoutes);
+app.use(`${API_URL}/gymauth`, gymAuthRoutes);
 app.use(`${API_URL}/users`, usersRoutes);
+app.use(`${API_URL}/gyms`, gymRoutes);
+app.use(`${API_URL}/subscriptions`, subscriptionRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
