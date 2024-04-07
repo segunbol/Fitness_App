@@ -7,7 +7,7 @@ import {
 import { bodyParts } from "../constants/CarouselImages";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import Animated, { FadeInDown, FadeOut } from "react-native-reanimated"
+import Animated, { FadeInDown, FadeOut } from "react-native-reanimated";
 
 export default function BodyParts() {
   const router = useRouter();
@@ -36,9 +36,14 @@ export default function BodyParts() {
 
 const BodyPartCard = ({ item, router, index }) => {
   return (
-    <Animated.View entering={FadeInDown.duration(400).delay(index*200).springify().damping(3)}>
+    <Animated.View
+      entering={FadeInDown.duration(400)
+        .delay(index * 200)
+        .springify()
+        .damping(3)}
+    >
       <TouchableOpacity
-      onPress={()=> router.push({pathname:'/exerciseList', params: item})}
+        onPress={() => router.push({ pathname: "/exerciseList", params: item })}
         style={{ width: wp(44), height: wp(52) }}
         className="flex justify-end mb-4"
       >

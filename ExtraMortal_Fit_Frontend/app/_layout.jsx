@@ -21,11 +21,24 @@ export default function _layout() {
         }}
       />
       <Stack.Screen
+        name="ListOfUsers"
+        options={{
+          presentation: "modal",
+        }}
+      />
+      <Stack.Screen
         name="exerciseDetails"
         options={{
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="CreateUser"
+        // options={{
+        //   presentation: "modal",
+        // }}
+      />
     </Stack>
+    
   );
 }

@@ -11,6 +11,10 @@ import usersRoutes from "./routes/userRoute";
 import gymAuthRoutes from "./routes/gymAuthRoute"
 import gymRoutes from './routes/gymRoutes'
 import subscriptionRoutes from './routes/subscriptionRoutes'
+import path from "path";
+import { fileURLToPath } from "url";
+import uploadRouter from "./routes/uploadRoute";
+import seedRouter from "./routes/seedRoute";
 // import { errorMiddleware } from "./middlewares/errorMiddleware";
 
 dotenv.config();
@@ -27,13 +31,19 @@ const connectDB = async () => {
 // Create an instance of express
 const app = express();
 
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
 // Define routes and middleware
 // Example:
 // app.get("/", (req: Request, res: Response) => {
 //   res.send("Hello -Start  World!");
 // });
 app.use("/resources", express.static("src/public"));
-
+app.use(
+  "/publicfiles/uploads",
+  express.static(__dirname + "./publicfiles/uploads")
+);
 // app.use(errorMiddleware);
 
 app.use(express.json());
@@ -48,6 +58,8 @@ app.get("/", (req: Request, res: Response) => {
 
 const API_URL = process.env.API_URL!;
 
+app.use(`${API_URL}/seed`, seedRouter);
+app.use(`${API_URL}/upload`, uploadRouter);
 app.use(`${API_URL}/auth`, authRoutes);
 app.use(`${API_URL}/gymauth`, gymAuthRoutes);
 app.use(`${API_URL}/users`, usersRoutes);

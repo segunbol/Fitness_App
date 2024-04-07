@@ -36,15 +36,18 @@ export default function Home() {
             className="rounded-full"
             style={{ height: hp(8), width: hp(8) }}
           />
-          <View style={{ height: hp(5), width: hp(5) }} className="bg-neutral-200 rounded-full flex justify-center items-center border-[3px] border-neutral-500">
+          <View
+            style={{ height: hp(5), width: hp(5) }}
+            className="bg-neutral-200 rounded-full flex justify-center items-center border-[3px] border-neutral-500"
+          >
             <Ionicons name="notifications-sharp" size={hp(3)} color="gray" />
           </View>
         </View>
       </View>
       <View>
-        <ImageCarousel/>
+        <ImageCarousel />
       </View>
-      
+
       {/* body parts list */}
       <View className="flex-1">
         <BodyParts />
