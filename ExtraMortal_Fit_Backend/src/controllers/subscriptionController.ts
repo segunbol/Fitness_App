@@ -6,6 +6,7 @@ import Subscriptions from "../models/SubscriptionModel";
 import bcrypt from "bcryptjs";
 import { calculateEndDated } from "../utils/dates";
 import { isFloat64Array } from "util/types";
+import { Types } from "mongoose";
 
 export const createSubscription = async (
   req: Request,
@@ -32,7 +33,7 @@ export const createSubscription = async (
     } = value;
 
     // get request user id
-    console.log(user.contactUsername);
+    // console.log(user.contactUsername);
     const requserExist = await Users.findOne({
       userName: user.contactUsername,
     });
@@ -142,15 +143,16 @@ export const getGymSubscribers = async (
     const { user } = req;
     console.log(user);
     const subscribers = await Subscriptions.find({ gymId: user.gymid })
-      .distinct("customerUsername").populate('customerUserId')
-      // .select({
-      //   customerUserId: 1,
-      //   customerUsername: 1,
-      //   gymId: 1,
-      //   startDate: 1,
-      //   endDate: 1,
-      //   isActive: 1,
-      // });
+      .distinct("customerUsername")
+      .populate("customerUserId");
+    // .select({
+    //   customerUserId: 1,
+    //   customerUsername: 1,
+    //   gymId: 1,
+    //   startDate: 1,
+    //   endDate: 1,
+    //   isActive: 1,
+    // });
     if (!subscribers) {
       return res
         .status(404)
@@ -162,8 +164,6 @@ export const getGymSubscribers = async (
     return res.status(500).json({ success: false, message: err.message });
   }
 };
-
-
 
 export const getUserSubscribedGyms = async (
   req: Request,
@@ -237,6 +237,96 @@ export const updateSubscriptionStatus = async (
       success: false,
       message: err.message,
     });
+  }
+};
+
+export const getGymSubscriptionSummary = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const gymId = req.params.gymid;
+    const objectIdGymId = new Types.ObjectId(gymId);
+
+    const subscriptions = await Subscriptions.aggregate([
+      {
+        $match: {
+          gymId: objectIdGymId,
+        },
+      },
+      {
+        $sort: {
+          customerUserId: 1,
+          endDate: -1, // Sort by customer ID (ascending) and endDate (descending)
+        },
+      },
+      {
+        $group: {
+          _id: "$customerUserId", // Group by customerUserId
+          mostRecentSubscription: { $first: "$$ROOT" }, // Get the first document (most recent endDate)
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Exclude _id from the result
+          mostRecentSubscription: 1, // Include mostRecentSubscription object
+        },
+      },
+    ]);
+    const { active, inactive, total } = req.query;
+
+    let summary;
+
+    if (active) {
+      const activeSubscribers: any = subscriptions.filter(
+        (sub) => sub.mostRecentSubscription.isActive
+      );
+      summary = {
+        list: activeSubscribers.map((sub: any) => sub.mostRecentSubscription),
+      };
+    }
+    if (inactive) {
+      const inactiveSubscribers = subscriptions.filter(
+        (sub) => !sub.mostRecentSubscription.isActive
+      );
+      summary = {
+        list: inactiveSubscribers.map((sub) => sub.mostRecentSubscription),
+      };
+    }
+
+    if (total) {
+      const totalSubscribersCount = subscriptions.length;
+      summary = {
+        list: subscriptions.map((sub) => sub.mostRecentSubscription),
+      };
+    }
+    // console.log(req.query)
+    if (!active && !inactive && !total) {
+      const activeSubscribers = subscriptions.filter(
+        (sub) => sub.mostRecentSubscription.isActive
+      );
+      const inactiveSubscribers = subscriptions.filter(
+        (sub) => !sub.mostRecentSubscription.isActive
+      );
+
+      const totalSubscribersCount = subscriptions.length;
+
+      summary = {
+        activeSubscribers: {
+          count: activeSubscribers.length,
+        },
+        inactiveSubscribers: {
+          count: inactiveSubscribers.length,
+        },
+        totalSubscribers: {
+          count: totalSubscribersCount,
+        },
+      };
+    }
+
+    return res.status(200).send(summary);
+  } catch (err: any) {
+    return res.status(500).json({ success: false, message: err.message });
   }
 };
 

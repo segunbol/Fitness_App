@@ -34,7 +34,12 @@ export const authenticate = (
 
 export const checkGym = (req: Request, res: Response, next: NextFunction) => {
   if (req.user && req.user.gymid) {
-    next();
+    if (req.params.gymid === req.user.gymid) {
+      next();
+    } else {
+      console.log("here")
+      res.status(401).send({ message: "Not Permitted" });
+    }
   } else {
     res.status(401).send({ message: "Not Permitted" });
   }

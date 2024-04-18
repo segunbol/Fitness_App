@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -12,33 +12,16 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
-const data = [
-  { userName: "ExtraMortal", firstName: "Segun", lastActive: "June 2023" },
-  { userName: "Mortal", firstName: "Segs", lastActive: "May 2023" },
-  { userName: "Extra", firstName: "Segun Bolawole", lastActive: "May 2023" },
-  { userName: "Segs", firstName: "Emma", lastActive: "Dec 2023" },
-  { userName: "ExtraMortal", firstName: "Segun", lastActive: "June 2023" },
-  { userName: "Mortal", firstName: "Segs", lastActive: "May 2023" },
-  { userName: "Extra", firstName: "Segun Bolawole", lastActive: "May 2023" },
-  { userName: "Segs", firstName: "Emma", lastActive: "Dec 2023" },
-  { userName: "ExtraMortal", firstName: "Segun", lastActive: "June 2023" },
-  { userName: "Mortal", firstName: "Segs", lastActive: "May 2023" },
-  { userName: "Extra", firstName: "Segun Bolawole", lastActive: "May 2023" },
-  { userName: "Segs", firstName: "Emma", lastActive: "Dec 2023" },
-  { userName: "ExtraMortal", firstName: "Segun", lastActive: "June 2023" },
-  { userName: "Mortal", firstName: "Segs", lastActive: "May 2023" },
-  { userName: "Extra", firstName: "Segun Bolawole", lastActive: "May 2023" },
-  { userName: "Segs", firstName: "Emma", lastActive: "Dec 2023" },
-  { userName: "ExtraMortal", firstName: "Segun", lastActive: "June 2023" },
-  { userName: "Mortal", firstName: "Segs", lastActive: "May 2023" },
-  { userName: "Extra", firstName: "Segun Bolawole", lastActive: "May 2023" },
-  { userName: "Segs", firstName: "Emma", lastActive: "Dec 2023" },
-];
+import { useLocalSearchParams, useRouter } from "expo-router";
+import baseURL from "../constants/baseUrl";
+import axios from "axios";
+import Animated, { FadeInDown } from "react-native-reanimated";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthGlobal from "../Context/store/AuthGlobal";
 
 const RenderItem = ({ item, isChecked, onToggle }) => {
   return (
-    <View style={styles.row}>
+    <View key={item.userName} style={styles.row}>
       <TouchableOpacity onPress={onToggle} style={styles.select}>
         <Checkbox
           value={isChecked}
@@ -46,16 +29,42 @@ const RenderItem = ({ item, isChecked, onToggle }) => {
           onValueChange={onToggle}
         />
       </TouchableOpacity>
-      <Text style={styles.cell}> {item.userName} </Text>
-      <Text style={styles.cell}> {item.firstName} </Text>
-      <Text style={styles.cell}> {item.lastActive}</Text>
+      <Text style={styles.cell}> {item.customerUsername} </Text>
+      <Text style={styles.cell}> {item.subscriptionType} </Text>
+      <Text style={styles.cell}> {item.endDate.toString().slice(0, 10)}</Text>
     </View>
   );
 };
 
 export function ListOfUsers() {
+  const item = useLocalSearchParams();
+  const router = useRouter();
+  console.log(item.name);
   const [checkedItems, setCheckedItems] = useState({});
   const [selectedList, setSelectedList] = useState([]);
+  const [datas, setDAtas] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const context = useContext(AuthGlobal);
+  // console.log(context.stateUser.user)
+  AsyncStorage.getItem("jwt")
+    .then((token) => {
+      console.log(token); // Log the token value to the console
+    })
+    .catch((error) => {
+      console.error("Error retrieving token from AsyncStorage:", error);
+    });
+
+  useEffect(() => {
+    const datas = async () => {
+      const data = await axios.get(
+        `${baseURL}subscriptions/summary/66058439dc04eea2eec9bafe?${item.name}=true`
+      );
+      console.log(data.data.list);
+      setDAtas(data.data.list);
+      setIsLoading(false);
+    };
+    datas();
+  }, []);
 
   const toggleItem = (index) => {
     setCheckedItems((prevCheckedItems) => ({
@@ -73,7 +82,7 @@ export function ListOfUsers() {
   );
 
   const printSelectedItems = () => {
-    const selectedItems = data.filter((_, index) => checkedItems[index]);
+    const selectedItems = datas.filter((_, index) => checkedItems[index]);
     setSelectedList(selectedItems);
     console.log(selectedItems);
   };
@@ -90,20 +99,40 @@ export function ListOfUsers() {
             />
           </TouchableOpacity>
           <Text style={styles.headerText}> USERNAME </Text>
-          <Text style={styles.headerText}> NAME </Text>
-          <Text style={styles.headerText}> LAST ACTIVE </Text>
+          <Text style={styles.headerText}> SUB TYPE </Text>
+          <Text style={styles.headerText}>
+            {" "}
+            {item.name === "inactive" ? "LAST ACTIVE" : "END DATE"}{" "}
+          </Text>
         </View>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => item.userName + index}
-          showsVerticalScrollIndicator={false}
-        />
-        <Button title="Print Selected Items" onPress={printSelectedItems} />
-        <Text style={styles.selectedItemsLabel}>Selected Items:</Text>
+        {isLoading ? (
+          <Text style={styles.headerText}> Loading </Text>
+        ) : (
+          <FlatList
+            data={datas}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item.userName}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+        <Animated.View entering={FadeInDown.delay(800).springify()}>
+          <TouchableOpacity
+            onPress={printSelectedItems}
+            style={{ height: hp(7), width: wp(80) }}
+            className="bg-rose-500 flex items-center justify-center mx-auto rounded-full border-[2px] border-neutral-200"
+          >
+            <Text
+              syle={{ fontSize: hp(3) }}
+              className="text-white font-bold text-3xl tracking-widest"
+            >
+              Reach Out
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
+        <Text style={styles.selectedItemsLabel}>Reach Out</Text>
         {selectedList.map((item, index) => (
           <Text key={index} style={styles.selectedItemText}>
-            {item.userName}
+            {item.customerUsername}
           </Text>
         ))}
       </View>
@@ -147,7 +176,7 @@ const styles = StyleSheet.create({
     border: "black",
     paddingHorizontal: 2,
     borderBottomColor: "#F43F5E",
-    borderBottomWidth: 1, 
+    borderBottomWidth: 1,
   },
   cell: {
     fontSize: 14,

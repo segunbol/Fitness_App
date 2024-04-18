@@ -34,12 +34,12 @@ export const GymSignUp = async (req: Request, res: Response) => {
       verified,
       gymImg,
     } = value;
-    const checkUser = await Users.findOne({userName:contactPersonUserName})
-    if (!checkUser){
-        return res.status(500).json({
-            success: false,
-            message: "Username does not exist",
-          }) 
+    const checkUser = await Users.findOne({ userName: contactPersonUserName });
+    if (!checkUser) {
+      return res.status(500).json({
+        success: false,
+        message: "Username does not exist",
+      });
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hashSync(password, salt);
@@ -51,8 +51,8 @@ export const GymSignUp = async (req: Request, res: Response) => {
       state,
       email,
       contactPersonUserName: checkUser.userName,
-      contactPersonLastName:checkUser.lastName,
-      contactPersonFirstName:checkUser.firstName,
+      contactPersonLastName: checkUser.lastName,
+      contactPersonFirstName: checkUser.firstName,
       phoneNo,
       verified,
       gymImg,
@@ -86,6 +86,7 @@ export const gymSignIn = async (
   res: Response
 ): Promise<Response> => {
   try {
+    console.log(req.body);
     const { error, value } = gymSignInSchema.body.validate(req.body);
     if (error) {
       return res.status(400).json({
@@ -93,11 +94,11 @@ export const gymSignIn = async (
         message: error.details[0].message,
       });
     }
-    
+
     const { gymName, password } = value;
-    
+
     const gym = await Gyms.findOne({ gymName: gymName });
-    
+
     if (!gym) {
       return res.status(404).json("User not found!");
     }
@@ -107,7 +108,12 @@ export const gymSignIn = async (
     }
     const SECRET = process.env.SECRET || "";
     const token = jwt.sign(
-      { gymid: gym._id, gymName: gym.gymName, verified: gym.verified, contactUsername:gym.contactPersonUserName },
+      {
+        gymid: gym._id,
+        gymName: gym.gymName,
+        verified: gym.verified,
+        contactUsername: gym.contactPersonUserName,
+      },
       SECRET,
       { expiresIn: "1d" }
     );
@@ -121,7 +127,7 @@ export const gymSignIn = async (
     // };
     // console.log(req);
 
-    return res.cookie("token", token).status(200).json(info);
+    return res.cookie("token", token).status(200).json({ info, token: token });
 
     // Do something with the validated user data
 

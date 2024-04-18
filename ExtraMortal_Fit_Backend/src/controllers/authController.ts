@@ -112,9 +112,9 @@ export const signIn = async (
     //   userName: user.userName,
     //   isAdmin: user.isAdmin,
     // };
-    console.log(req.user);
+    console.log(info);
 
-    return res.cookie("token", token).status(200).json(info);
+    return res.cookie("token", token).status(200).json({info, token: token});
 
     // Do something with the validated user data
 

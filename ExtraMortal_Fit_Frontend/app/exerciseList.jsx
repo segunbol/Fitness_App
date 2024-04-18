@@ -1,8 +1,11 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { Component, useEffect, useState } from "react";
-import { Image,  Text, TouchableOpacity, View } from "react-native";
-import { fetchExercisesByBodypart } from "../api/exerciseDB";
-import { dommyData } from "../constants/CarouselImages";
+import React, { useEffect, useState } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  fetchExercisesByBodypart,
+  fetchExercisesByBodyparts,
+} from "../api/exerciseDB";
+// import { dommyData } from "../constants/CarouselImages";
 import { StatusBar } from "expo-status-bar";
 import {
   widthPercentageToDP as wp,
@@ -10,21 +13,26 @@ import {
 } from "react-native-responsive-screen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ListOfExercises from "../components/ListOfExercises";
-import {ScrollView} from "react-native-virtualized-view"
+import { ScrollView } from "react-native-virtualized-view";
+import axios from "axios";
+import baseURL from "../constants/baseUrl";
 
 export default function exerciseList() {
   const router = useRouter();
   const item = useLocalSearchParams();
-  const [exercises, setExercises] = useState(dommyData);
-
+  const [exercises, setExercises] = useState();
+  console.log(item);
   useEffect(() => {
-    // if(item) getExercises(item.name)
+    if (item) getExercises(item.name);
   }, [item]);
 
   const getExercises = async (bodypart) => {
-    let data = await fetchExercisesByBodypart(bodypart);
-    setExercises(data);
+    // let data = await fetchExercisesByBodyparts(bodypart);
+    let data = await axios.get(`${baseURL}exercises/bodypart/${bodypart}`);
+    // console.log(data.data.exercises)
+    setExercises(data.data.exercises);
   };
+
   return (
     <ScrollView>
       <StatusBar style="light" />
@@ -46,12 +54,16 @@ export default function exerciseList() {
         />
       </TouchableOpacity>
       {/* exercises list */}
-      <View className='mx-4 space-y-3 mt-4'>
-      <Text style={{fontSize:hp(3)}} className='font-semibold text-neutral-700'>
-        Workout Programs For {item.name.charAt(0).toUpperCase() + item.name.slice(1)} 
-      </Text>
+      <View className="mx-4 space-y-3 mt-4">
+        <Text
+          style={{ fontSize: hp(3) }}
+          className="font-semibold text-neutral-700"
+        >
+          Workout Programs For{" "}
+          {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+        </Text>
         <View>
-            <ListOfExercises data={exercises} />
+          <ListOfExercises data={exercises} />
         </View>
       </View>
     </ScrollView>

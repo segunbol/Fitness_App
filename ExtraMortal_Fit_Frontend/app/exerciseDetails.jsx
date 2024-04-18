@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { Component } from "react";
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
 import {
@@ -13,6 +13,11 @@ import { ScrollView } from "react-native-virtualized-view";
 export default function exerciseDetails() {
   const item = useLocalSearchParams();
   const router = useRouter();
+
+  if (!item || Object.keys(item).length === 0) {
+    console.log(item);
+    return null; // Return nothing if item is empty
+  }
 
   {
     return (
@@ -58,7 +63,10 @@ export default function exerciseDetails() {
           >
             Equipment:{" "}
             <Text className="font-semibold">
-              {item?.equipment.charAt(0).toUpperCase() + item.name.slice(1)}
+              {item?.equipment
+                ? item.equipment.charAt(0).toUpperCase() +
+                  item.equipment.slice(1)
+                : "Not Available"}
             </Text>
           </Text>
           <Text
@@ -67,7 +75,8 @@ export default function exerciseDetails() {
           >
             Target Muscle:{" "}
             <Text className="font-semibold">
-              {item?.target.charAt(0).toUpperCase() + item.name.slice(1)}
+              {item?.target?.charAt(0).toUpperCase() + item.target.slice(1) ||
+                "Not Available"}
             </Text>
           </Text>
           <Text
@@ -76,7 +85,7 @@ export default function exerciseDetails() {
           >
             Secondary Muscles:{" "}
             {item?.secondaryMuscles.charAt(0).toUpperCase() +
-              item.name.slice(1)}
+              item.secondaryMuscles.slice(1)}
           </Text>
           <Text
             style={{ fontSize: hp(2.7) }}
@@ -84,17 +93,19 @@ export default function exerciseDetails() {
           >
             Instructions
           </Text>
-          {item?.instructions.split(".").map((instruction, index) => {
-            instruction = instruction.replace(/,/g, "");
-            return (
-              <Text
-                style={{ fontSize: hp(2) }}
-                className=" text-neutral-800 tracking-wide"
-              >
-                {instruction}
-              </Text>
-            );
-          })}
+          {item?.instructions &&
+            item.instructions.split(".").map((instruction, index) => {
+              instruction = instruction.replace(/,/g, "");
+              return (
+                <Text
+                  style={{ fontSize: hp(2) }}
+                  className="text-neutral-800 tracking-wide"
+                  key={index}
+                >
+                  {instruction}
+                </Text>
+              );
+            })}
         </ScrollView>
       </View>
     );

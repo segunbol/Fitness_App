@@ -13,10 +13,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { ScrollView } from "react-native-virtualized-view";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import AuthGlobal from "../Context/store/AuthGlobal";
-import axios from "axios";
-import { useRouter } from "expo-router";
 // {
 //     userName
 //     firstName
@@ -32,56 +28,26 @@ import { useRouter } from "expo-router";
 //     city
 //   },
 
-const CreateUser = () => {
+const SignUp = () => {
   const [userName, setUserName] = useState();
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [gender, setGender] = useState();
   const [userImg, setUserImg] = useState();
   const [password, setPassword] = useState();
+  const [isAdmin, setIsAdmin] = useState();
+  const [verified, setVerified] = useState();
   const [email, setEmail] = useState();
   const [phoneNo, setPhoneNo] = useState();
   const [state, setState] = useState();
   const [city, setCity] = useState();
-  const [token, setToken] = useState("");
-  const context = useContext(AuthGlobal);
-  const gymId = context.stateUser.user._id;
-  const router = useRouter();
-  console.log(gymId);
 
-  AsyncStorage.getItem("jwt")
-    .then((token) => {
-      setToken(token); // Log the token value to the console
-    })
-    .catch((error) => {
-      console.error("Error retrieving token from AsyncStorage:", error);
-    });
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(
-        `${baseURL}users/create`,
-        {
-          userName,
-          firstName,
-          lastName,
-          gender,
-          userImg,
-          password,
-          email,
-          phoneNo,
-          state,
-          city,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      router.push("/admin");
-    } catch (err) {
-      toast.error(getError(err));
-      dispatch({ type: "UPDATE_FAIL" });
-    }
+  const handleSubmit = () => {
+    // Handle form submission logic here
+    console.log("Name:", firstName);
+    console.log("Email:", email);
+
+    // ... Your form submission logic hereanasta.jpg
   };
 
   return (
@@ -157,15 +123,11 @@ const CreateUser = () => {
             onChangeText={setState}
           />
           {/* ... add similar fields for phoneNo, state, and city */}
-          <Button
-            title="Submit"
-            onPress={submitHandler}
-            className="bg-rose-500 h-16"
-          />
+          <Button title="Submit" onPress={handleSubmit} className="bg-rose-500 h-16" />
         </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default CreateUser;
+export default SignUp;

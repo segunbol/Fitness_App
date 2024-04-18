@@ -7,7 +7,6 @@ const exerciseSchema = new Schema<IExercises>(
     bodyPart: { type: String, required: true },
     equipment: { type: String, required: true },
     gifUrl: { type: String, required: true },
-    id: { type: String, required: true },
     name: { type: String, required: true },
     target: { type: String, required: true },
     secondaryMuscles: [{ type: String, required: true }],
@@ -37,4 +36,4 @@ const Exercises = model<IExercises, PaginateModel<IExercises>>(
   exerciseSchema
 );
 
-exports = Exercises;
+export default Exercises;
