@@ -33,6 +33,12 @@ export default function _layout() {
             presentation: "modal",
           }}
         />
+        <Stack.Screen
+          name="GymSignInScreen"
+          options={{
+            presentation: "modal",
+          }}
+        />
       </Stack>
     </Auth>
   );

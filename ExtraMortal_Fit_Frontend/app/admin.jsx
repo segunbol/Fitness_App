@@ -11,17 +11,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { bodyParts } from "../../constants/CarouselImages";
+import { bodyParts } from "../constants/CarouselImages";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import Animated, { FadeInDown, FadeOut } from "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
-import ImageCarousel from "../../components/ImageCarousel";
+import ImageCarousel from "../components/ImageCarousel";
 import { ScrollView } from "react-native-virtualized-view";
 import axios from "axios";
-import baseURL from "../../constants/baseUrl";
+import baseURL from "../constants/baseUrl";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AuthGlobal from "../../Context/store/AuthGlobal";
+import AuthGlobal from "../Context/store/AuthGlobal";
+import Loading from "../components/Loading";
 
 export default function BodyParts() {
   const router = useRouter();
@@ -76,7 +77,7 @@ export default function BodyParts() {
         </View>
         <View className="flex justify-center items-center space-y-2">
           <TouchableOpacity
-            onPress={() => router.push({ pathname: "/SignInScreen" })}
+            onPress={() => router.push({ pathname: "/CreateUser" })}
           >
             <View
               style={{ height: hp(5), width: hp(14), fontSize: hp(4.5) }}
@@ -106,7 +107,9 @@ export default function BodyParts() {
       {isLoading ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          className=" "
         >
+          <Loading />
           {/* Loading indicator here */}
           <Text>Loading data...</Text>
         </View>

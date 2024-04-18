@@ -16,11 +16,13 @@ import ListOfExercises from "../components/ListOfExercises";
 import { ScrollView } from "react-native-virtualized-view";
 import axios from "axios";
 import baseURL from "../constants/baseUrl";
+import Loading from "../components/Loading";
 
 export default function exerciseList() {
   const router = useRouter();
   const item = useLocalSearchParams();
   const [exercises, setExercises] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   console.log(item);
   useEffect(() => {
     if (item) getExercises(item.name);
@@ -31,6 +33,7 @@ export default function exerciseList() {
     let data = await axios.get(`${baseURL}exercises/bodypart/${bodypart}`);
     // console.log(data.data.exercises)
     setExercises(data.data.exercises);
+    setIsLoading(false);
   };
 
   return (
@@ -62,9 +65,19 @@ export default function exerciseList() {
           Workout Programs For{" "}
           {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
         </Text>
-        <View>
-          <ListOfExercises data={exercises} />
-        </View>
+        {isLoading ? (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            className=" "
+          >
+            <Loading />
+            <Text>Loading data...</Text>
+          </View>
+        ) : (
+          <View>
+            <ListOfExercises data={exercises} />
+          </View>
+        )}
       </View>
     </ScrollView>
   );

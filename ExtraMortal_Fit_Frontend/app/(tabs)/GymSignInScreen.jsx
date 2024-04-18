@@ -17,8 +17,8 @@ import { ScrollView } from "react-native-virtualized-view";
 // import { Store } from "../context/Store";
 import { useRouter } from "expo-router";
 
-import AuthGlobal from "../Context/store/AuthGlobal";
-import { loginGym } from "../Context/Actions/Auth.actions";
+import AuthGlobal from "../../Context/store/AuthGlobal";
+import { loginGym } from "../../Context/Actions/Auth.actions";
 
 const Gymsignin = () => {
   const [userName, setUserName] = useState();
@@ -30,7 +30,7 @@ const Gymsignin = () => {
   //   console.log(context);
   useEffect(() => {
     if (context.stateUser.isAuthenticated === true) {
-      router.push("/Home");
+      router.push("/admin");
     }
   }, [context.stateUser.isAuthenticated]);
 
@@ -53,11 +53,11 @@ const Gymsignin = () => {
       <View className="flex-1 justify-center items-center">
         <Image
           className="h-full w-full absolute"
-          source={require("../assets/images/anasta.jpg")}
+          source={require("../../assets/images/anasta.jpg")}
         />
 
         <View style={{ width: wp(90), height: hp(30) }} className="">
-          <Text className="text-2xl text-white mb-4">Sign In</Text>
+          <Text className="text-2xl text-white mb-4">Gym Sign In</Text>
           <TextInput
             className="border border-white rounded-md px-2 py-2 h-16 mb-4 text-white"
             placeholder="Enter Username"

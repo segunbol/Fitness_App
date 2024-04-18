@@ -7,7 +7,7 @@ node_modules/
 .expo/
 dist/
 web-build/
-
+ExtraMortal_Fit_Frontend/constants/baseUrl.jsx
 # Native
 *.orig.*
 *.jks

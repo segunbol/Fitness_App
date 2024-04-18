@@ -10,13 +10,15 @@ import {
 
 export default function _layout() {
   return (
-    <Tabs  screenOptions={{
-      headerShown: false,
-    }}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title:'programs',
+          title: "Programs",
           tabBarIcon: () => (
             <MaterialCommunityIcons
               className="flex justify-center items-center ml-3"
@@ -27,7 +29,10 @@ export default function _layout() {
           ),
         }}
       ></Tabs.Screen>
-      <Tabs.Screen name="admin" options={{
+      <Tabs.Screen
+        name="GymSignInScreen"
+        options={{
+          title: "Admin",
           tabBarIcon: () => (
             <MaterialCommunityIcons
               className="flex justify-center items-center ml-3"
@@ -36,8 +41,11 @@ export default function _layout() {
               color="#f43f5e"
             />
           ),
-        }}></Tabs.Screen>
-      <Tabs.Screen name="profile" options={{
+        }}
+      ></Tabs.Screen>
+      <Tabs.Screen
+        name="Profile"
+        options={{
           tabBarIcon: () => (
             <MaterialIcons
               className="flex justify-center items-center ml-3"
@@ -46,7 +54,8 @@ export default function _layout() {
               color="#f43f5e"
             />
           ),
-        }}></Tabs.Screen>
+        }}
+      ></Tabs.Screen>
     </Tabs>
   );
 }
