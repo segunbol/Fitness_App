@@ -28,12 +28,20 @@ export const gymSignUpSchema = {
       .trim()
       .message('number should be in the "08012345678" format'),
     email: Joi.string().email().required().trim(),
-    gymImg: Joi.string().allow("", null),
+    gymImage: Joi.string().allow("", null),
     password: Joi.string(),
     address: Joi.string().required().trim(),
     verified: Joi.boolean().allow("", null),
     state: Joi.string().required().trim(),
     city: Joi.string().required().trim(),
+    country: Joi.string().required().trim(),
+    subscriptionTypeAndAmount: Joi.array().items(Joi.object({
+      subType: Joi.string().valid("Daily", "Monthly", "Biannually", "Annually").required(),
+      amount: Joi.number().required(),
+      variation: Joi.string().valid("Single", "Couples").required()
+    })).required(),
+    currency: Joi.string().required().trim(),
+    gymImages: Joi.string().allow("", null),
   }),
 };
 
@@ -81,5 +89,14 @@ export const editGymSchema = {
     address: Joi.string().allow("", null).trim(),
     state: Joi.string().allow("", null),
     city: Joi.string().allow("", null),
+    country: Joi.string().required().trim(),
+    gymImage: Joi.string(),
+    subscriptionTypeAndAmount: Joi.array().items(Joi.object({
+      subType: Joi.string().valid("Daily", "Monthly", "Biannually", "Annually").required(),
+      amount: Joi.number().required(),
+      variation: Joi.string().valid("Single", "Couples").required()
+    })).required(),
+    currency: Joi.string().required().trim(),
+    gymImages: Joi.string().allow("", null),
   }),
 };

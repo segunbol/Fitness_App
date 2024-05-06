@@ -7,10 +7,10 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import ImageCarousel from "../components/ImageCarousel";
-import BodyParts from "../components/BodyParts";
+import ImageCarousel from "../../components/ImageCarousel";
+import BodyParts from "../../components/BodyParts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AuthGlobal from "../Context/store/AuthGlobal";
+import AuthGlobal from "../../Context/store/AuthGlobal";
 
 export default function Home() {
   const context = useContext(AuthGlobal);
@@ -44,7 +44,7 @@ export default function Home() {
         {/* Image Slider Carousel */}
         <View className="flex justify-center items-center space-y-2">
           <Image
-            source={require("../assets/images/Smiling-bg.png")}
+            source={require("../../assets/images/Smiling-bg.png")}
             className="rounded-full"
             style={{ height: hp(8), width: hp(8) }}
           />

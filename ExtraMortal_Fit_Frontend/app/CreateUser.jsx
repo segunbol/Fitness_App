@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -17,6 +17,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthGlobal from "../Context/store/AuthGlobal";
 import axios from "axios";
 import { useRouter } from "expo-router";
+import Animated, { FadeInDown } from "react-native-reanimated";
+import { TouchableOpacity } from "react-native-gesture-handler";
 // {
 //     userName
 //     firstName
@@ -92,77 +94,89 @@ const CreateUser = () => {
           className="h-full w-full absolute"
           source={require("../assets/images/anasta.jpg")}
         />
-        <View style={{ width: wp(90), height: hp(90) }} className="">
-          <Text className="text-2xl text-white mb-4">Create User</Text>
-          <TextInput
-            className="border border-white rounded-md px-2 py-2 h-16 mb-4 text-white"
-            placeholder="Enter Username"
-            value={userName}
-            onChangeText={setUserName}
-          />
-          <TextInput
-            className="border border-white rounded-md px-4 h-16 py-2  mb-4 text-white"
-            placeholder="Enter First name"
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-          <TextInput
-            className="border border-white rounded-md px-4 py-2 h-16 mb-4 text-white"
-            placeholder="Enter Last name"
-            value={lastName}
-            onChangeText={setLastName}
-          />
-          <TextInput
-            className="border border-white rounded-md px-4 py-2 h-16 mb-4 text-white"
-            placeholder="Gender"
-            value={gender}
-            onChangeText={setGender}
-          />
-          {/* <TextInput
+        <ScrollView style={{ width: wp(90), height: hp(80) }} className="pt-10">
+          <View>
+            <Text className="text-2xl text-white mb-4">Create User</Text>
+            <TextInput
+              className="border border-white rounded-md px-2 py-2 h-16 mb-4 text-white"
+              placeholder="Enter Username"
+              value={userName}
+              onChangeText={setUserName}
+            />
+            <TextInput
+              className="border border-white rounded-md px-4 h-16 py-2  mb-4 text-white"
+              placeholder="Enter First name"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+            <TextInput
+              className="border border-white rounded-md px-4 py-2 h-16 mb-4 text-white"
+              placeholder="Enter Last name"
+              value={lastName}
+              onChangeText={setLastName}
+            />
+            <TextInput
+              className="border border-white rounded-md px-4 py-2 h-16 mb-4 text-white"
+              placeholder="Gender"
+              value={gender}
+              onChangeText={setGender}
+            />
+            {/* <TextInput
           className="border rounded-md px-4 py-2 mb-4"
           placeholder="Enter your profile picture URL (optional)"
           value={userImg}
           onChangeText={setUserImg}
         /> */}
-          <TextInput
-            className="border border-white rounded-md px-4 py-2 mb-4 h-16 text-white"
-            placeholder="Enter OTP"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry // Make password field hidden
-          />
-          {/* Add similar TextInput components for email, phone number, state, and city */}
-          <TextInput
-            className="border border-white rounded-md px-4 py-2 mb-4 h-16 text-white"
-            placeholder="Enter Email"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <TextInput
-            className="border border-white rounded-md px-4 py-2 mb-4 h-16 text-white"
-            placeholder="Enter Phone Number"
-            value={phoneNo}
-            onChangeText={setPhoneNo}
-          />
-          <TextInput
-            className="border border-white rounded-md px-4 py-2 mb-4 h-16 text-white"
-            placeholder="Enter City"
-            value={city}
-            onChangeText={setCity}
-          />
-          <TextInput
-            className="border border-white rounded-md px-4 py-2 mb-4 h-16 text-white"
-            placeholder="Enter State"
-            value={state}
-            onChangeText={setState}
-          />
-          {/* ... add similar fields for phoneNo, state, and city */}
-          <Button
-            title="Submit"
-            onPress={submitHandler}
-            className="bg-rose-500 h-16"
-          />
-        </View>
+            <TextInput
+              className="border border-white rounded-md px-4 py-2 mb-4 h-16 text-white"
+              placeholder="Enter OTP"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry // Make password field hidden
+            />
+            {/* Add similar TextInput components for email, phone number, state, and city */}
+            <TextInput
+              className="border border-white rounded-md px-4 py-2 mb-4 h-16 text-white"
+              placeholder="Enter Email"
+              value={email}
+              onChangeText={setEmail}
+            />
+            <TextInput
+              className="border border-white rounded-md px-4 py-2 mb-4 h-16 text-white"
+              placeholder="Enter Phone Number"
+              value={phoneNo}
+              onChangeText={setPhoneNo}
+            />
+            <TextInput
+              className="border border-white rounded-md px-4 py-2 mb-4 h-16 text-white"
+              placeholder="Enter City"
+              value={city}
+              onChangeText={setCity}
+            />
+            <TextInput
+              className="border border-white rounded-md px-4 py-2 mb-4 h-16 text-white"
+              placeholder="Enter State"
+              value={state}
+              onChangeText={setState}
+            />
+            {/* ... add similar fields for phoneNo, state, and city */}
+            
+            <Animated.View entering={FadeInDown.delay(800).springify()}>
+              <TouchableOpacity
+                onPress={submitHandler}
+                style={{ height: hp(7), width: wp(80) }}
+                className="bg-rose-500 flex items-center justify-center mx-auto rounded-full border-[2px] border-neutral-200"
+              >
+                <Text
+                  syle={{ fontSize: hp(3) }}
+                  className="text-white font-bold text-3xl tracking-widest"
+                >
+                  Create User
+                </Text>
+              </TouchableOpacity>
+            </Animated.View>
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );

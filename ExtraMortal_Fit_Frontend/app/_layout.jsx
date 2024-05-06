@@ -14,6 +14,12 @@ export default function _layout() {
           headerShown: false,
         }}
       >
+        {/* <Stack.Screen
+          name="index"
+          options={{
+            presentation: "fullScreen",
+          }}
+        /> */}
         <Stack.Screen name="(tabs)" />
         <Stack.Screen
           name="exerciseList"

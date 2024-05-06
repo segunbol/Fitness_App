@@ -14,7 +14,6 @@ export const createSubscription = async (
 ): Promise<Response> => {
   try {
     const { user } = req;
-    console.log(user);
 
     const { value, error } = createSubscriptionSchema.body.validate(req.body);
     if (error) {

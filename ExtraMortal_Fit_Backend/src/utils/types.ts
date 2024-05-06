@@ -10,7 +10,17 @@ export interface IUser {
   firstName: string;
   lastName: string;
   gender: string;
-  userImg: string;
+  age: number;
+  currentWeight: number;
+  targetWeight: number;
+  focusArea: string;
+  goals:string;
+  bmi: number;
+  image: string;
+  level: string;
+  difficulty: string;
+  gymSubscribed:  { gymId: ObjectId; name: string }[];
+  images: string[];
   password: string;
   email: string;
   phoneNo: string;
@@ -38,11 +48,13 @@ export interface IGym {
   contactPersonLastName: string;
   phoneNo: number;
   verified: boolean;
-  gymImg: string;
   email: string;
   password: string;
-  subscriptionTypeAndAmount: string;
-  
+  country: string;
+  gymImage: string;
+  subscriptionTypeAndAmount: { subType: string; amount: number }[];
+  currency: string;
+  gymImages: string;
 }
 
 export interface GymInfo {
@@ -74,6 +86,8 @@ export interface IExercises {
   target: string;
   secondaryMuscles: string;
   instructions: string;
+  difficulty: string;
+  level: string;
 }
 
 export interface IToken {

@@ -15,11 +15,13 @@ import {
 import { ScrollView } from "react-native-virtualized-view";
 
 // import { Store } from "../context/Store";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import baseURL from "../constants/baseUrl";
 import axios from "axios";
 import AuthGlobal from "../Context/store/AuthGlobal";
 import { loginUser } from "../Context/Actions/Auth.actions";
+import Animated, { FadeInDown } from "react-native-reanimated";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 // {
 //     userName
@@ -45,7 +47,7 @@ const Signin = () => {
   console.log(context);
   useEffect(() => {
     if (context.stateUser.isAuthenticated === true) {
-      router.push("/Home");
+      router.replace("/Home");
     }
   }, [context.stateUser.isAuthenticated]);
 
@@ -88,11 +90,22 @@ const Signin = () => {
           />
 
           {/* ... add similar fields for phoneNo, state, and city */}
-          <Button
-            title="Submit"
-            onPress={handleSubmit}
-            className="bg-rose-500 h-16"
-          />
+          <Animated.View entering={FadeInDown.delay(800).springify()}>
+            
+              <TouchableOpacity
+                onPress={handleSubmit}
+                style={{ height: hp(7), width: wp(80) }}
+                className="bg-rose-500 flex items-center justify-center mx-auto rounded-full border-[2px] border-neutral-200"
+              >
+                <Text
+                  syle={{ fontSize: hp(3) }}
+                  className="text-white font-bold text-3xl tracking-widest"
+                >
+                  Sign In
+                </Text>
+              </TouchableOpacity>
+            
+          </Animated.View>
         </View>
       </View>
     </SafeAreaView>

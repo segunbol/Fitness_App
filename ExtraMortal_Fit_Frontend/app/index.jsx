@@ -16,7 +16,7 @@ export default function index() {
       <StatusBar style="light" />
       <Image
         className="h-full w-full absolute"
-        source={require("../../assets/images/anasta.jpg")}
+        source={require("../assets/images/anasta.jpg")}
       />
       <LinearGradient
         colors={["transparent", "#18181b"]}
@@ -44,7 +44,7 @@ export default function index() {
         </Animated.View>
         <Animated.View entering={FadeInDown.delay(800).springify()}>
           <TouchableOpacity
-            onPress={()=> router.push('/Home')}
+            onPress={()=> router.push('/SignInScreen')}
             style={{ height: hp(7), width: wp(80)}}
             className="bg-rose-500 flex items-center justify-center mx-auto rounded-full border-[2px] border-neutral-200"
           >
@@ -52,7 +52,21 @@ export default function index() {
               syle={{ fontSize: hp(3) }}
               className="text-white font-bold text-3xl tracking-widest"
             >
-              Let's Gooo!!!!!
+              User Sign In
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(800).springify()}>
+          <TouchableOpacity
+            onPress={()=> router.push('/GymSignInScreen')}
+            style={{ height: hp(7), width: wp(80)}}
+            className="bg-rose-500 flex items-center justify-center mx-auto rounded-full border-[2px] border-neutral-200"
+          >
+            <Text
+              syle={{ fontSize: hp(3) }}
+              className="text-white font-bold text-3xl tracking-widest"
+            >
+              Gym Sign In
             </Text>
           </TouchableOpacity>
         </Animated.View>

@@ -1,14 +1,10 @@
-import express, { Request, Response } from "express";
-import Users from "../models/UserModel";
+import { Request, Response } from "express";
 import Exercises from "../models/ExercisesModel";
-import Gyms from "../models/GymModel";
-import { GymInfo } from "../utils/types";
 import {
-  editUserSchema,
-  updateUserStatusSchema,
-} from "../validators/userValidator";
-import bcrypt from "bcryptjs";
-import { editGymSchema } from "../validators/gymValidator";
+  createExerciseSchema,
+  updateExerciseSchema,
+} from "../validators/exerciseValidator";
+import { IExercises } from "../utils/types";
 
 // Get exercises by body part
 export const getExercisesByBodyPart = async (
@@ -17,7 +13,6 @@ export const getExercisesByBodyPart = async (
 ): Promise<Response> => {
   try {
     const { bodypart } = req.params;
-    console.log(bodypart);
     const exercises = await Exercises.find({ bodyPart: bodypart }); // Replace Exercise with your model name
     const count = exercises.length;
     if (!exercises) {
@@ -166,5 +161,80 @@ export const getAllExercises = async (
   } catch (err: any) {
     console.error(err.message);
     return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const createExercise = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { error, value } = createExerciseSchema.body.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
+    }
+    const newExercise = await Exercises.create(value);
+    return res.status(201).json({ success: true, exercise: newExercise });
+  } catch (err: any) {
+    console.error("Error creating exercise:", err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const updateExercises = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    // if (req.user.type != "super admin") {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Not Permitted",
+    //   });
+    // }
+    const { value, error } = updateExerciseSchema.body.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        message: error.details[0].message,
+      });
+    }
+    const {
+      bodyPart,
+      equipment,
+      gifUrl,
+      name,
+      target,
+      secondaryMuscles,
+      instructions,
+      difficulty,
+      level,
+    } = value;
+
+    const exercise = await Exercises.findById(req.params.id);
+    if (exercise) {
+      exercise.bodyPart = bodyPart || exercise.bodyPart;
+      exercise.equipment = equipment || exercise.equipment;
+      exercise.gifUrl = gifUrl || exercise.gifUrl;
+      exercise.name = name || exercise.name;
+      exercise.target = target || exercise.target;
+      exercise.secondaryMuscles = secondaryMuscles || exercise.secondaryMuscles;
+      exercise.instructions = instructions || exercise.instructions;
+      exercise.difficulty = difficulty || exercise.difficulty;
+      exercise.level = level || exercise.level;
+
+      const updatedExercise = await exercise.save();
+
+      return res.json({ message: "User Updated", exercise: updatedExercise });
+    } else {
+      return res.status(404).json({ message: "Exercise Not Found" });
+    }
+  } catch (err: any) {
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };

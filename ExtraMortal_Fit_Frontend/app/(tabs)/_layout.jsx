@@ -16,7 +16,7 @@ export default function _layout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="Home"
         options={{
           title: "Programs",
           tabBarIcon: () => (
@@ -30,7 +30,7 @@ export default function _layout() {
         }}
       ></Tabs.Screen>
       <Tabs.Screen
-        name="GymSignInScreen"
+        name="admin"
         options={{
           title: "Admin",
           tabBarIcon: () => (
@@ -44,7 +44,7 @@ export default function _layout() {
         }}
       ></Tabs.Screen>
       <Tabs.Screen
-        name="Profile"
+        name="profile"
         options={{
           tabBarIcon: () => (
             <MaterialIcons

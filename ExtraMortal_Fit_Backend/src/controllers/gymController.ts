@@ -2,10 +2,6 @@ import express, { Request, Response } from "express";
 import Users from "../models/UserModel";
 import Gyms from "../models/GymModel";
 import { GymInfo } from "../utils/types";
-import {
-  editUserSchema,
-  updateUserStatusSchema,
-} from "../validators/userValidator";
 import bcrypt from "bcryptjs";
 import { editGymSchema } from "../validators/gymValidator";
 
@@ -22,8 +18,7 @@ export const getAllGyms = async (
   try {
     const { user } = req.headers;
     const { authorization } = req.headers;
-    console.log(authorization);
-    console.log(user);
+    
     const allGyms = await Gyms.find();
 
     return res.status(200).json(allGyms);
@@ -139,7 +134,11 @@ export const updateGym = async (
       contactPersonFirstName,
       phoneNo,
       verified,
-      gymImg,
+      gymImage,
+      country,
+      subscriptionTypeAndAmount,
+      currency,
+      gymImages,
     } = value;
     let hashedPassword;
     if (contactPersonUserName) {
@@ -167,19 +166,23 @@ export const updateGym = async (
         contactPersonLastName || gym.contactPersonLastName;
       gym.phoneNo = phoneNo || gym.phoneNo;
       gym.email = email || gym.email;
-      gym.gymImg = gymImg || gym.gymImg;
+      gym.gymImage = gymImage || gym.gymImage;
       gym.password = hashedPassword || gym.password;
       gym.contactPersonFirstName =
         contactPersonFirstName || gym.contactPersonFirstName;
       gym.address = address || gym.address;
       gym.state = state || gym.state;
       gym.city = city || gym.city;
+      gym.country = country || gym.country;
+      gym.subscriptionTypeAndAmount = subscriptionTypeAndAmount || gym.subscriptionTypeAndAmount;
+      gym.currency = currency || gym.currency;
+      gym.gymImages = gymImages || gym.gymImages;
 
       const updatedGym = await gym.save();
 
-      return res.json({ message: "gym Updated", gym: updatedGym });
+      return res.json({ message: "Gym Updated", gym: updatedGym });
     } else {
-      return res.status(404).json({ message: "gym Not Found" });
+      return res.status(404).json({ message: "Gym Not Found" });
     }
   } catch (err: any) {
     return res.status(500).json({

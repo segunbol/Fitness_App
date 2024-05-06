@@ -17,7 +17,7 @@ export const getDate = () => {
 
 // utils/subscriptions.ts THIS IS CASE 1 CHATGPT
 
-  export function calculateEndDated(startDate: Date, duration: number, durationType: 'Monthly' | 'Quarterly' | 'Biannually' | 'Yearly'): Date {
+  export function calculateEndDated(startDate: Date, duration: number, durationType: 'Monthly' | 'Quarterly' | 'Biannually' | 'Annually'): Date {
     const endDate = new Date(startDate);
   
     switch (durationType) {
@@ -39,7 +39,7 @@ export const getDate = () => {
         endDate.setMonth(Math.max(endDate.getMonth(), startDate.getMonth()));
         endDate.setDate(Math.max(endDate.getDate(), startDate.getDate())); // Keep the same day of the month if possible
         break;
-      case 'Yearly':
+      case 'Annually':
         endDate.setFullYear(endDate.getFullYear() + duration);
         // Handle cases where start date is not Jan 1st
         endDate.setMonth(Math.max(endDate.getMonth(), startDate.getMonth()));

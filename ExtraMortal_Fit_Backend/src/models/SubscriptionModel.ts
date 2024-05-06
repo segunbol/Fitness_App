@@ -19,7 +19,7 @@ const subscriptionSchema = new Schema<ISubscription>(
     subscriptionTypeCount: { type: Number, default: 1 },
     subscriptionType: {
       type: String,
-      enum: ["Monthly", "Quarterly", "Biannually", "Yearly"],
+      enum: ["Monthly", "Quarterly", "Biannually", "Annually"],
       required: true,
     },
     createdBy: { type: Schema.Types.ObjectId, ref: "Users", required: true },

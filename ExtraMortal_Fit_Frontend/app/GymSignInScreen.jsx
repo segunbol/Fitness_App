@@ -17,20 +17,22 @@ import { ScrollView } from "react-native-virtualized-view";
 // import { Store } from "../context/Store";
 import { useRouter } from "expo-router";
 
-import AuthGlobal from "../../Context/store/AuthGlobal";
-import { loginGym } from "../../Context/Actions/Auth.actions";
+import AuthGlobal from "../Context/store/AuthGlobal";
+import { loginGym } from "../Context/Actions/Auth.actions";
+import Animated, { FadeInDown } from "react-native-reanimated";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Gymsignin = () => {
-  const [userName, setUserName] = useState();
   const [gymName, setGymName] = useState();
   const [password, setPassword] = useState();
   const context = useContext(AuthGlobal);
   const [error, setError] = useState("");
   const router = useRouter();
-  //   console.log(context);
+  const authe = context.stateUser.isAuthenticated;
+  // console.log(authe);
   useEffect(() => {
     if (context.stateUser.isAuthenticated === true) {
-      router.push("/admin");
+      router.replace("/admin");
     }
   }, [context.stateUser.isAuthenticated]);
 
@@ -53,7 +55,7 @@ const Gymsignin = () => {
       <View className="flex-1 justify-center items-center">
         <Image
           className="h-full w-full absolute"
-          source={require("../../assets/images/anasta.jpg")}
+          source={require("../assets/images/anasta.jpg")}
         />
 
         <View style={{ width: wp(90), height: hp(30) }} className="">
@@ -73,11 +75,21 @@ const Gymsignin = () => {
           />
 
           {/* ... add similar fields for phoneNo, state, and city */}
-          <Button
-            title="Submit"
-            onPress={handleSubmit}
-            className="bg-rose-500 h-16"
-          />
+
+          <Animated.View entering={FadeInDown.delay(800).springify()}>
+            <TouchableOpacity
+              onPress={handleSubmit}
+              style={{ height: hp(7), width: wp(80) }}
+              className="bg-rose-500 flex items-center justify-center mx-auto rounded-full border-[2px] border-neutral-200"
+            >
+              <Text
+                syle={{ fontSize: hp(3) }}
+                className="text-white font-bold text-3xl tracking-widest"
+              >
+                Sign In
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
         </View>
       </View>
     </SafeAreaView>

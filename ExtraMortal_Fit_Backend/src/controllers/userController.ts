@@ -130,11 +130,21 @@ export const updateUser = async (
       lastName,
       phoneNo,
       email,
-      userImg,
+      userImage,
       password,
       gender,
       state,
       city,
+      age,
+      currentWeight,
+      targetWeight,
+      focusArea,
+      goals,
+      bmi,
+      images,
+      level,
+      difficulty,
+      gymSubscribed
     } = value;
     let hashedPassword;
     if (password) {
@@ -148,11 +158,21 @@ export const updateUser = async (
       user.lastName = lastName || user.lastName;
       user.phoneNo = phoneNo || user.phoneNo;
       user.email = email || user.email;
-      user.userImg = userImg || user.userImg;
+      user.image = userImage || user.image;
       user.password = hashedPassword || user.password;
       user.gender = gender || user.gender;
       user.state = state || user.state;
       user.city = city || user.city;
+      user.age = age || user.age;
+      user.currentWeight = currentWeight || user.currentWeight;
+      user.targetWeight = targetWeight || user.targetWeight;
+      user.focusArea = focusArea || user.focusArea;
+      user.goals = goals || user.goals;
+      user.bmi = bmi || user.bmi;
+      user.images = images || user.images;
+      user.level = level || user.level;
+      user.difficulty = difficulty || user.difficulty;
+      user.gymSubscribed = gymSubscribed || user.gymSubscribed;
 
       const updatedUser = await user.save();
 

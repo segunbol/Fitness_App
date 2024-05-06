@@ -71,7 +71,7 @@ export default function exerciseList() {
             className=" "
           >
             <Loading />
-            <Text>Loading data...</Text>
+            <Text>Loading Exercises...</Text>
           </View>
         ) : (
           <View>

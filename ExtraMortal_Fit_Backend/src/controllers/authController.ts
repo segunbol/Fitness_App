@@ -35,6 +35,16 @@ export const signUp = async (req: Request, res: Response) => {
       isAdmin,
       state,
       city,
+      age,
+      currentWeight,
+      targetWeight,
+      focusArea,
+      goals,
+      bmi,
+      images,
+      level,
+      difficulty,
+      gymSubscribed
     } = value;
 
     const salt = await bcrypt.genSalt(10);
@@ -52,6 +62,16 @@ export const signUp = async (req: Request, res: Response) => {
       isAdmin,
       state,
       city,
+      age,
+      currentWeight,
+      targetWeight,
+      focusArea,
+      goals,
+      bmi,
+      images,
+      level,
+      difficulty,
+      gymSubscribed
     });
     const savedUser = await newUser.save();
     const userId = savedUser._id;

@@ -9,14 +9,17 @@ const gymSchema = new Schema<IGym>(
     address: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: true },
+    country: { type: String, required: true },
     email: { type: String, required: true },
     contactPersonUserName: { type: String, required: true },
     contactPersonLastName: { type: String, required: true },
     contactPersonFirstName: { type: String, required: true },
+    currency:{ type: String, required: true },
     phoneNo: { type: Number, required: true },
     verified: { type: Boolean, default: false },
-    gymImg: { type: String },
-    subscriptionTypeAndAmount: {}
+    gymImage: { type: String },
+    gymImages: [{ type: String }],
+    subscriptionTypeAndAmount: [{subType: { type: String,enum: ["Daily","Monthly","Biannually", "Annually"],  required: true },amount: { type: Number, required: true }, variation: { type: String,enum: ["Single","Couples"], required: true }}]
   },
   {
     timestamps: true,

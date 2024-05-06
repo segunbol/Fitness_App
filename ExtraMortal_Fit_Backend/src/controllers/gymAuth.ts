@@ -10,7 +10,6 @@ import { UserInfo } from "../utils/types";
 import { gymSignInSchema, gymSignUpSchema } from "../validators/gymValidator";
 
 export const GymSignUp = async (req: Request, res: Response) => {
-  // console.log(req.body)
   try {
     const { error, value } = gymSignUpSchema.body.validate(req.body);
     console.log(value);
@@ -32,7 +31,11 @@ export const GymSignUp = async (req: Request, res: Response) => {
       contactPersonFirstName,
       phoneNo,
       verified,
-      gymImg,
+      gymImage,
+      country,
+      subscriptionTypeAndAmount,
+      currency,
+      gymImages,
     } = value;
     const checkUser = await Users.findOne({ userName: contactPersonUserName });
     if (!checkUser) {
@@ -55,7 +58,11 @@ export const GymSignUp = async (req: Request, res: Response) => {
       contactPersonFirstName: checkUser.firstName,
       phoneNo,
       verified,
-      gymImg,
+      gymImage,
+      country,
+      subscriptionTypeAndAmount,
+      currency,
+      gymImages
     });
     const savedGym = await newUser.save();
 

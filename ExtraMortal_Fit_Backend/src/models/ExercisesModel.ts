@@ -11,6 +11,8 @@ const exerciseSchema = new Schema<IExercises>(
     target: { type: String, required: true },
     secondaryMuscles: [{ type: String, required: true }],
     instructions: [{ type: String, required: true }],
+    difficulty:{ type: String, required: true },
+    level: { type: String, required: true }
   },
   {
     timestamps: true,
