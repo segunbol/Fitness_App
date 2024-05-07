@@ -19,7 +19,8 @@ const gymSchema = new Schema<IGym>(
     verified: { type: Boolean, default: false },
     gymImage: { type: String },
     gymImages: [{ type: String }],
-    subscriptionTypeAndAmount: [{subType: { type: String,enum: ["Daily","Monthly","Biannually", "Annually"],  required: true },amount: { type: Number, required: true }, variation: { type: String,enum: ["Single","Couples"], required: true }}]
+    listOfSubsribers:[{userId: { type: Schema.Types.ObjectId, ref: "Users", required: false }, username: { type: String, required: false }}],
+    subscriptionTypeAndAmount: [{_id: false, subType: { type: String,enum: ["Daily","Monthly","Quarterly","Biannually", "Annually"],  required: true },amount: { type: Number, required: true }, variation: { type: String,enum: ["Single","Couples"], required: true }}]
   },
   {
     timestamps: true,

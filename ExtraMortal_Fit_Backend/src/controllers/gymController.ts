@@ -109,7 +109,8 @@ export const updateGym = async (
   res: Response
 ): Promise<Response> => {
   try {
-    if (req.user._id != req.params.id) {
+    console.log(req.user.gymid, req.params.id)
+    if (req.user.gymid != req.params.id) {
       return res.status(400).json({
         success: false,
         message: "Not Permitted",
@@ -136,6 +137,7 @@ export const updateGym = async (
       verified,
       gymImage,
       country,
+      listOfSubsribers,
       subscriptionTypeAndAmount,
       currency,
       gymImages,
@@ -174,6 +176,7 @@ export const updateGym = async (
       gym.state = state || gym.state;
       gym.city = city || gym.city;
       gym.country = country || gym.country;
+      gym.listOfSubsribers = listOfSubsribers || gym.listOfSubsribers;
       gym.subscriptionTypeAndAmount = subscriptionTypeAndAmount || gym.subscriptionTypeAndAmount;
       gym.currency = currency || gym.currency;
       gym.gymImages = gymImages || gym.gymImages;

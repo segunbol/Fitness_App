@@ -84,15 +84,15 @@ export const editGymSchema = {
       .trim()
       .message('number should be in the "+2348012345678" format'),
     email: Joi.string().email().allow("", null).trim(),
-    gymImg: Joi.string().allow("", null),
+    gymImage: Joi.string().allow("", null),
     password: Joi.string().allow("", null),
     address: Joi.string().allow("", null).trim(),
     state: Joi.string().allow("", null),
     city: Joi.string().allow("", null),
     country: Joi.string().required().trim(),
-    gymImage: Joi.string(),
+    listOfSubsribers: Joi.array().items().allow("", null),
     subscriptionTypeAndAmount: Joi.array().items(Joi.object({
-      subType: Joi.string().valid("Daily", "Monthly", "Biannually", "Annually").required(),
+      subType: Joi.string().valid("Daily", "Monthly", "Quarterly", "Biannually", "Annually").required(),
       amount: Joi.number().required(),
       variation: Joi.string().valid("Single", "Couples").required()
     })).required(),

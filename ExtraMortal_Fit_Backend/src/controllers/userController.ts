@@ -130,7 +130,7 @@ export const updateUser = async (
       lastName,
       phoneNo,
       email,
-      userImage,
+      image,
       password,
       gender,
       state,
@@ -158,7 +158,7 @@ export const updateUser = async (
       user.lastName = lastName || user.lastName;
       user.phoneNo = phoneNo || user.phoneNo;
       user.email = email || user.email;
-      user.image = userImage || user.image;
+      user.image = image || user.image;
       user.password = hashedPassword || user.password;
       user.gender = gender || user.gender;
       user.state = state || user.state;

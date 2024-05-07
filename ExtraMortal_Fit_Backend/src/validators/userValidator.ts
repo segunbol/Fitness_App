@@ -23,7 +23,10 @@ export const userSignUpSchema = {
       .trim()
       .message('number should be in the "+2348012345678" format'),
     email: Joi.string().email().required().trim(),
-    userImage: Joi.string().allow("", null),
+    age:Joi.number().allow("", null),
+    bmi:Joi.number().allow("", null),
+    image: Joi.string().allow("", null),
+    images: Joi.string().allow("", null),
     password: Joi.string(),
     gender: Joi.string().required().trim().valid("Male", "Female"),
     isAdmin: Joi.boolean().allow("", null),
@@ -42,7 +45,8 @@ export const userSignUpSchema = {
       "shoulders",
       "upper arms",
       "upper legs",
-      "waist"
+      "waist",
+      "full body"
     ),
     goals: Joi.string().allow("", null).valid("Keep fit", "Muscle gain", "Weight loss"),
     level: Joi.string().allow("", null).valid("beginner", "intermediate", "expert"),
@@ -90,7 +94,10 @@ export const editUserSchema = {
       .trim()
       .message('number should be in the "+2348012345678" format'),
     email: Joi.string().email().allow("", null).trim(),
-    userImage: Joi.string().allow("", null),
+    age:Joi.number().allow("", null),
+    bmi:Joi.number().allow("", null),
+    image: Joi.string().allow("", null),
+    images: Joi.string().allow("", null),
     password: Joi.string().allow("", null),
     gender: Joi.string().allow("", null).trim().valid("Male", "Female"),
     state: Joi.string().allow("", null),

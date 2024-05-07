@@ -43,7 +43,7 @@ export interface IGym {
   address: string;
   city: string;
   state: string;
-  contactPersonUserName: String;
+  contactPersonUserName: string;
   contactPersonFirstName: string;
   contactPersonLastName: string;
   phoneNo: number;
@@ -52,6 +52,7 @@ export interface IGym {
   password: string;
   country: string;
   gymImage: string;
+  listOfSubsribers:{ userId: ObjectId; username: string }[];
   subscriptionTypeAndAmount: { subType: string; amount: number }[];
   currency: string;
   gymImages: string;

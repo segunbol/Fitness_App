@@ -13,23 +13,19 @@ export const createExerciseSchema = {
     secondaryMuscles: Joi.array()
       .items(Joi.string().required().trim())
       .min(1)
-      .required()
-      .message("Secondary muscles are required (minimum 1)."),
+      .required(),
     instructions: Joi.array()
       .items(Joi.string().required().trim())
       .min(1)
-      .required()
-      .message("Instructions are required (minimum 1)."),
+      .required(),
     difficulty: Joi.string()
       .required()
       .trim()
-      .valid("easy", "medium", "hard")
-      .message("Difficulty level is required (easy, medium, hard)."),
+      .valid("easy", "medium", "hard"),
     level: Joi.string()
       .required()
       .trim()
-      .valid("beginner", "intermediate", "expert")
-      .message("Level is required (beginner, intermediate, expert)."),
+      .valid("beginner", "intermediate", "expert"),
   }),
 };
 
