@@ -10,6 +10,7 @@ export interface IUser {
   firstName: string;
   lastName: string;
   gender: string;
+  height:string;
   age: number;
   currentWeight: number;
   targetWeight: number;
@@ -73,6 +74,8 @@ export interface ISubscription {
   endDate: Date;
   isActive: boolean;
   subscriptionType: string;
+  subscriptionAmount: number;
+  subscriptionVariation: string;
   subscriptionTypeCount: number;
   createdBy:ObjectId;
   createdByUsername:string;
@@ -94,6 +97,20 @@ export interface IExercises {
 export interface IToken {
   usedId: ObjectId;
   token: string;
+}
+
+export interface IGymActivity {
+  gymId: ObjectId;
+  gymName: string;
+  name: string;
+  description: string;
+  day:string[];
+  sessionStart: string;
+  sessionEnd: string;
+  image: string;
+  images: string[];
+  videos: string[];
+  equipments: string[];
 }
 
 

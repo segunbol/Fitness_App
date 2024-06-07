@@ -29,6 +29,8 @@ export const createSubscription = async (
       startDate,
       subscriptionTypeCount,
       subscriptionType,
+      subscriptionAmount,
+      subscriptionVariation
     } = value;
 
     // get request user id
@@ -67,12 +69,14 @@ export const createSubscription = async (
         message: "Gym Does Not Exist",
       });
     }
+    console.log(gymExist);
 
     // Calculate End Date
     const calEndDated = calculateEndDated(
       startDate,
       subscriptionTypeCount,
-      subscriptionType
+      subscriptionType,
+      
     );
 
     // Evaluate Active Status
@@ -95,6 +99,8 @@ export const createSubscription = async (
       isActive: status,
       subscriptionTypeCount,
       subscriptionType,
+      subscriptionAmount,
+      subscriptionVariation,
     });
     const savedSub = await newSubscription.save();
     return res.status(200).json(savedSub);

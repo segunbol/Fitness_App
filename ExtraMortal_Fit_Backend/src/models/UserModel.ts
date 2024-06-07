@@ -12,6 +12,8 @@ const urserSchema = new Schema<IUser>(
       enum: ["Male", "Female", "Neither"],
       required: true,
     },
+    age:{ type: Number, required: false },
+    height: { type: String, required: false },
     currentWeight: { type: Number, required: false},
     targetWeight: { type: Number , required: false},
     focusArea: { type: String , enum: ["back","cardio","chest","lower arms","lower legs","neck", "shoulders","upper arms","upper legs","waist", "full body"], required: false},

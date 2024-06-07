@@ -11,6 +11,8 @@ export const createSubscriptionSchema = {
     endDate: Joi.date().allow(""),
     isActive: Joi.boolean().allow(""),
     subscriptionTypeCount: Joi.number().required(),
+    subscriptionAmount: Joi.number().required(),
+    subscriptionVariation: Joi.string().required(),
     subscriptionType: Joi.string().valid(
       "Monthly",
       "Quarterly",

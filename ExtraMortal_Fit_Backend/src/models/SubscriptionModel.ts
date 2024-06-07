@@ -22,6 +22,8 @@ const subscriptionSchema = new Schema<ISubscription>(
       enum: ["Monthly", "Quarterly", "Biannually", "Annually"],
       required: true,
     },
+    subscriptionAmount: { type: Number, required: true },
+    subscriptionVariation: { type: String, required: true },
     createdBy: { type: Schema.Types.ObjectId, ref: "Users", required: true },
     createdByUsername: { type: String, required: true },
   },

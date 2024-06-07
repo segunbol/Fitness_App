@@ -26,6 +26,7 @@ export const userSignUpSchema = {
     age:Joi.number().allow("", null),
     bmi:Joi.number().allow("", null),
     image: Joi.string().allow("", null),
+    height: Joi.string().allow("", null),
     images: Joi.string().allow("", null),
     password: Joi.string(),
     gender: Joi.string().required().trim().valid("Male", "Female"),
@@ -94,6 +95,7 @@ export const editUserSchema = {
       .trim()
       .message('number should be in the "+2348012345678" format'),
     email: Joi.string().email().allow("", null).trim(),
+    height: Joi.string().allow("", null),
     age:Joi.number().allow("", null),
     bmi:Joi.number().allow("", null),
     image: Joi.string().allow("", null),

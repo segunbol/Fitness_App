@@ -135,6 +135,7 @@ export const updateUser = async (
       gender,
       state,
       city,
+      height,
       age,
       currentWeight,
       targetWeight,
@@ -158,6 +159,7 @@ export const updateUser = async (
       user.lastName = lastName || user.lastName;
       user.phoneNo = phoneNo || user.phoneNo;
       user.email = email || user.email;
+      user.height = height || user.height;
       user.image = image || user.image;
       user.password = hashedPassword || user.password;
       user.gender = gender || user.gender;

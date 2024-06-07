@@ -45,6 +45,10 @@ export default function _layout() {
             presentation: "modal",
           }}
         />
+         <Stack.Screen
+          name="ListOfGymsScreen"
+          
+        />
       </Stack>
     </Auth>
   );
