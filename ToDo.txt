@@ -5,6 +5,7 @@ Add SuperAdmin Column to User Model type boolean
 Add GymStaff to User Model as type boolean 
 FOR USERCONTROLLER(31/03/24)
 Remove the isAdmin check from the route
+ENSURE ALL USER AND GYM DETAIL IS SAVED IN SMALL LETTERS
 
 
 "customerUserId":"",
@@ -28,3 +29,15 @@ endDate,
 isActive, 
 subscriptionTypeCount, 
 subscriptionType
+
+FOR GYM MODEL:(16/06/2024)
+- Change the contactPersonUserName,contactPersonLastName and contactPersonFirstName to a List of UserIds 
+referenced to User Model, i.e, before a Gym can be registered, the user(gym owner) must have created a 
+profile, become admin and can assign users to be admin of its gym
+
+Currently working on the Transaction Process (16/06/2024) - Project has not gone live yet
+-To Create a inflow Transaction, the thought processes are :-
+        1. Have a true or false case for if the customer has paid or not, then save all in the same Inflow transaction Model
+            - In this case, the database will do the sieving 
+        2. Have a seperate model for paid and debtors --- but this is unnecessary.
+- How do I construct the process?

@@ -17,6 +17,7 @@ import { fileURLToPath } from "url";
 import uploadRouter from "./routes/uploadRoute";
 import sortImagesRouter from "./routes/sortImagesRoute";
 import seedRouter from "./routes/seedRoutes";
+import inflowTransactionRoutes from "./routes/inflowTransactionRoutes";
 // import { errorMiddleware } from "./middlewares/errorMiddleware";
 
 dotenv.config();
@@ -58,7 +59,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello -Start  World!");
 });
 
-const API_URL = process.env.API_URL!; 
+const API_URL = process.env.API_URL!;
 
 app.use(`${API_URL}/sortimages`, sortImagesRouter);
 app.use(`${API_URL}/upload`, uploadRouter);
@@ -69,6 +70,7 @@ app.use(`${API_URL}/users`, usersRoutes);
 app.use(`${API_URL}/gyms`, gymRoutes);
 app.use(`${API_URL}/subscriptions`, subscriptionRoutes);
 app.use(`${API_URL}/exercises`, exerciseRoutes);
+app.use(`${API_URL}/inflow`, inflowTransactionRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;

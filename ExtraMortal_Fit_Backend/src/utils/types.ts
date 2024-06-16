@@ -125,14 +125,14 @@ export interface IProduct {
 }
 
 export interface IInflow {
-  userId: ObjectId;
-  username: string;
-  product: ObjectId;
+  customerUserId: ObjectId;
+  productId: ObjectId;
   gymId: ObjectId;
-  gymName: string;
   quantity: number;
+  price: number;
   totalAmount: number;
   paid: boolean;
+  createdBy: ObjectId;
 }
 
 export interface IExpense {
