@@ -62,7 +62,7 @@ export const GymSignUp = async (req: Request, res: Response) => {
       country,
       subscriptionTypeAndAmount,
       currency,
-      gymImages
+      gymImages,
     });
     const savedGym = await newUser.save();
 
@@ -87,7 +87,7 @@ export const GymSignUp = async (req: Request, res: Response) => {
     });
   }
 };
-
+// hh
 export const gymSignIn = async (
   req: Request,
   res: Response

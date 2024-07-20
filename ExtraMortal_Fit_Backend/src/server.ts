@@ -18,6 +18,7 @@ import uploadRouter from "./routes/uploadRoute";
 import sortImagesRouter from "./routes/sortImagesRoute";
 import seedRouter from "./routes/seedRoutes";
 import inflowTransactionRoutes from "./routes/inflowTransactionRoutes";
+import productRoutes from "./routes/productRoutes";
 // import { errorMiddleware } from "./middlewares/errorMiddleware";
 
 dotenv.config();
@@ -71,6 +72,7 @@ app.use(`${API_URL}/gyms`, gymRoutes);
 app.use(`${API_URL}/subscriptions`, subscriptionRoutes);
 app.use(`${API_URL}/exercises`, exerciseRoutes);
 app.use(`${API_URL}/inflow`, inflowTransactionRoutes);
+app.use(`${API_URL}/product`, productRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
