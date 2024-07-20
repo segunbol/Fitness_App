@@ -10,17 +10,17 @@ export interface IUser {
   firstName: string;
   lastName: string;
   gender: string;
-  height:string;
+  height: string;
   age: number;
   currentWeight: number;
   targetWeight: number;
   focusArea: string;
-  goals:string;
+  goals: string;
   bmi: number;
   image: string;
   level: string;
   difficulty: string;
-  gymSubscribed:  { gymId: ObjectId; name: string }[];
+  gymSubscribed: { gymId: ObjectId; name: string }[];
   images: string[];
   password: string;
   email: string;
@@ -53,7 +53,7 @@ export interface IGym {
   password: string;
   country: string;
   gymImage: string;
-  listOfSubsribers:{ userId: ObjectId; username: string }[];
+  listOfSubsribers: { userId: ObjectId; username: string }[];
   subscriptionTypeAndAmount: { subType: string; amount: number }[];
   currency: string;
   gymImages: string;
@@ -77,8 +77,8 @@ export interface ISubscription {
   subscriptionAmount: number;
   subscriptionVariation: string;
   subscriptionTypeCount: number;
-  createdBy:ObjectId;
-  createdByUsername:string;
+  createdBy: ObjectId;
+  createdByUsername: string;
 }
 
 export interface IExercises {
@@ -104,7 +104,7 @@ export interface IGymActivity {
   gymName: string;
   name: string;
   description: string;
-  day:string[];
+  day: string[];
   sessionStart: string;
   sessionEnd: string;
   image: string;
@@ -113,6 +113,38 @@ export interface IGymActivity {
   equipments: string[];
 }
 
+export interface IProduct {
+  gymId: ObjectId;
+  gymName: string;
+  name: string;
+  image: string;
+  category: string;
+  description: string;
+  price: number;
+  countInStock: number;
+}
 
+export interface IInflow {
+  customerUserId: ObjectId;
+  productId: ObjectId;
+  gymId: ObjectId;
+  quantity: number;
+  price: number;
+  totalAmount: number;
+  paid: boolean;
+  createdBy: ObjectId;
+}
 
-
+export interface IExpense {
+  gymId: ObjectId;
+  gymName: string;
+  item: string;
+  expenseType: string;
+  itemDescription: string;
+  quantity: number;
+  unitCost: number;
+  unitDescription: string;
+  purchaseDate: Date;
+  lifeSpan: number;
+  period: string;
+}

@@ -2,6 +2,7 @@
 
 # dependencies
 node_modules/
+components
 
 # Expo
 .expo/
@@ -39,5 +40,3 @@ yarn-error.*
 
 expo-env.d.ts
 # @end expo-cli
-
-constants/

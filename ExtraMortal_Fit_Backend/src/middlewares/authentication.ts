@@ -22,8 +22,6 @@ export const authenticate = (
         res.status(403).send({ success: false, message: "Invalid Token" });
       } else {
         req.user = decode;
-        console.log(124567890);
-        console.log(req.user);
         next();
       }
     });
@@ -37,7 +35,6 @@ export const checkGym = (req: Request, res: Response, next: NextFunction) => {
     if (req.params.gymid === req.user.gymid) {
       next();
     } else {
-      console.log("here")
       res.status(401).send({ message: "Not Permitted" });
     }
   } else {
