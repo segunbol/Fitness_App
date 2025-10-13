@@ -5,6 +5,7 @@ import paginate from "mongoose-paginate-v2";
 const expenseTransactionSchema = new Schema<IExpense>(
   {
     gymId: { type: Schema.Types.ObjectId, ref: "Gyms", required: true },
+    userId: { type: Schema.Types.ObjectId, ref: "Users", required: true },
     gymName: { type: String, required: true },
     item: { type: String, required: true },
     expenseType: {
@@ -12,6 +13,7 @@ const expenseTransactionSchema = new Schema<IExpense>(
       enum: ["capital expense", "recurring expense"],
       required: true,
     },
+    itemCategory: { type: String, required: true },
     itemDescription: { type: String, required: true },
     quantity: { type: Number, required: true },
     unitCost: { type: Number, required: true },

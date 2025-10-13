@@ -138,8 +138,10 @@ export interface IInflow {
 export interface IExpense {
   gymId: ObjectId;
   gymName: string;
+  userId: ObjectId;
   item: string;
   expenseType: string;
+  itemCategory: string;
   itemDescription: string;
   quantity: number;
   unitCost: number;

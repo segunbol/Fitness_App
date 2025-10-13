@@ -25,6 +25,7 @@ import AuthGlobal from "../../Context/store/AuthGlobal";
 import Loading from "../../components/Loading";
 import { logoutUser } from "../../Context/Actions/Auth.actions";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import SummaryChart from "../../components/SummaryCharts";
 
 export default function BodyParts() {
   const router = useRouter();
@@ -286,6 +287,7 @@ export default function BodyParts() {
                 .springify()
                 .damping(3)}
             >
+              <SummaryChart />
               <TouchableOpacity
                 onPress={() =>
                   router.push({

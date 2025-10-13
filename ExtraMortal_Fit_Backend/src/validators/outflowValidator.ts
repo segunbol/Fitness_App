@@ -4,6 +4,7 @@ export const createExpenseTransaction = {
   body: Joi.object({
     gymId: Joi.objectId().required(),
     gymName: Joi.string().trim().required(),
+    userId: Joi.objectId().required(),
     item: Joi.string().trim().required(),
     expenseType: Joi.string()
       .trim()

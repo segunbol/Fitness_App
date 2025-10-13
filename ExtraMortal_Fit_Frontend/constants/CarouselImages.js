@@ -1,14 +1,14 @@
+import { Text } from "react-native";
+import TransactionSummary from "../components/ProfitLossSummary";
+import TotalSales from "../components/TotalSales";
+import TotalExpsense from "../components/TotalExpense";
+
 export const rapidApiKey = "0a648ef4ecmshdc9d7b8445fe9b1p1db2c4jsn87a1f54c290d";
 
-export const sliderImages = [
-  require("../assets/images/young-fitness-man.png"),
-  require("../assets/images/slide2.jpeg"),
-  require("../assets/images/slide3.jpg"),
-  require("../assets/images/slide4.jpg"),
-  require("../assets/images/slide5.jpg"),
-  require("../assets/images/slide6.jpg"),
-  require("../assets/images/slide7.jpg"),
-  require("../assets/images/slide8.jpg"),
+export const sliderItems = [
+  { id: 1, component: <TransactionSummary /> },
+  { id: 2, component: <TotalSales /> },
+  { id: 2, component: <TotalExpsense /> },
 ];
 
 export const bodyParts = [
@@ -24,7 +24,7 @@ export const bodyParts = [
   { name: "waist", image: require("../assets/images/anastase-m.jpg") },
 ];
 
-export const dommyData =  [
+export const dommyData = [
   {
     id: "3220",
     bodyPart: "cardio",

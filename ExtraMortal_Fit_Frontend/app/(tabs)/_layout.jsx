@@ -16,20 +16,6 @@ export default function _layout() {
       }}
     >
       <Tabs.Screen
-        name="Home"
-        options={{
-          title: "Programs",
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              className="flex justify-center items-center ml-3"
-              name="weight-lifter"
-              size={hp(5)}
-              color="#f43f5e"
-            />
-          ),
-        }}
-      ></Tabs.Screen>
-      <Tabs.Screen
         name="admin"
         options={{
           title: "Admin",
@@ -43,6 +29,21 @@ export default function _layout() {
           ),
         }}
       ></Tabs.Screen>
+      <Tabs.Screen
+        name="Home"
+        options={{
+          title: "Programs",
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              className="flex justify-center items-center ml-3"
+              name="weight-lifter"
+              size={hp(5)}
+              color="#f43f5e"
+            />
+          ),
+        }}
+      ></Tabs.Screen>
+
       <Tabs.Screen
         name="profile"
         options={{

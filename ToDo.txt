@@ -36,8 +36,39 @@ referenced to User Model, i.e, before a Gym can be registered, the user(gym owne
 profile, become admin and can assign users to be admin of its gym
 
 Currently working on the Transaction Process (16/06/2024) - Project has not gone live yet
--To Create a inflow Transaction, the thought processes are :-
+-To Create an inflow Transaction, the thought processes are :-
         1. Have a true or false case for if the customer has paid or not, then save all in the same Inflow transaction Model
             - In this case, the database will do the sieving 
-        2. Have a seperate model for paid and debtors --- but this is unnecessary.
+        2. Have a seperate model for paid and debtors --- but this is unnecessary.-NO...19/01/2025
 - How do I construct the process?
+19/01/2025
+    - There are 3 types of transaction for this app:
+        - Subscription          = Income
+        - Gym items Sales       = Income
+        - Gym purchase of items = Expense
+            - Expense is further broken down to Capital Expense & Recurring Expense
+            - We will categorise expenses based on category (admin, salary, rent, etc)
+    - Operations to be carried out on transactions:
+        - Sum up total Subscription - Monthly and Annual basis
+        - Sum up total item Sales -   Monthly and Annual basis
+            - Sum up total paid items
+            - Sum up total unpaid items
+        - Sum up total Income( Subscription + Income) - Monthly and Annual basis
+        - Sum up total Recurring Expense - Monthly and Annual basis
+        - Sum up total Capital Expense - Monthly and Annual basis
+            - we are including depreciciation (straight line method)
+        - Sum up total expense (Recurring & Capital) - Monthly and Annual basis
+        - Calculate the depreciation of Assets with straightline method;
+            - update the used up construct
+            - update the total depreciation
+            - update the current year depreciation - this will be used in computing the annual fixed cost
+    - Summary Component:
+        Frontend:-
+            - Show the financial position of the business, Total Income less Total Expense(All time, Beginning of Year till Date and Monthly)
+                There will be 3 slides
+            - Charts - Month on Month (total expense, total income, profit/loss)
+                       Year on Year (total expense, total income, profit/loss)
+            - Subscription amount based on Months, Biannual, Yearly
+            - Button to click list of active and inactive customers
+        Backend:- 
+            - Compute data for Profit/loss(All time, Beginning of Year till Date and Monthly)

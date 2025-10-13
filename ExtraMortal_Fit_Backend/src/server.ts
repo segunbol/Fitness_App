@@ -12,6 +12,7 @@ import gymAuthRoutes from "./routes/gymAuthRoute";
 import gymRoutes from "./routes/gymRoutes";
 import subscriptionRoutes from "./routes/subscriptionRoutes";
 import exerciseRoutes from "./routes/exercisRoutes";
+import outflowTransactionRoutes from "./routes/outflowTransactionRoutes";
 import path from "path";
 import { fileURLToPath } from "url";
 import uploadRouter from "./routes/uploadRoute";
@@ -72,6 +73,7 @@ app.use(`${API_URL}/gyms`, gymRoutes);
 app.use(`${API_URL}/subscriptions`, subscriptionRoutes);
 app.use(`${API_URL}/exercises`, exerciseRoutes);
 app.use(`${API_URL}/inflow`, inflowTransactionRoutes);
+app.use(`${API_URL}/outflow`, outflowTransactionRoutes);
 app.use(`${API_URL}/product`, productRoutes);
 
 // Start the server
